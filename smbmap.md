@@ -1,4 +1,4 @@
-# SMBMap Cheat Sheet
+# smbmap cheat sheet
 
 ## Null Session (Guest Access)
 ```bash
