@@ -1,0 +1,74 @@
+______________________________________________________________________________________________________________________________________________________
+                                                    [ - smbclient cheat sheet - ] 
+______________________________________________________________________________________________________________________________________________________
+
+smbclient [options] //IP/<share>  
+______________________________________________________________________________________________________________________________________________________
+
+                           
+ ______________________         Anonymous/Guest Access :   smbclient //IP/public -N  
+[      Connection      ]        Authenticated Access :     smbclient //IP/C$ -U admin%pass123456  
+ ______________________         Specify Domain/Workgroup : smbclient //IP/Share -W CORP -U user%pass 
+
+
+ ______________________         Download a File : smbclient //IP/Data -U user%pass -c "get file.docx"
+ [  File Operations    ]        Upload All TXT Files : smbclient //IP/Data -U user%pass -c "mask *.txt; recurse; mput *.txt"  
+ ______________________         Delete a File : smbclient //IP/Data -U user%pass -c "rm oldfile.zip"  
+
+  ______________________        Create a Directory : smbclient //IP/Data -U user%pass -c "mkdir Projects"  
+ [ Directory Management ]       Recursive Download : smbclient //IP/Data -U user%pass -c "recurse; prompt; mget *"  
+  ______________________
+
+   ______________________       List Shares via Script : smbclient -L IP -U admin%Password123456 -N -I IP ou smbclient -L IP -U admin%Pass123456 -N
+  [ Non-Interactive Mode ]      Backup Directory to Tar :  smbclient //IP/Backup -U user%pass -c "tar c backup.tar Documents"  
+   ______________________
+
+   ______________________       Mounting Shares, Use mount.cifs (Linux) or net use (Windows) for persistent access: sudo mount -t cifs //IP/Data /mnt/share -o user=admin,pass=Pass123456
+  [ Advanced Techniques  ]      Brute-Force Share Names, Combine with tools like nmap or enum4linux :  enum4linux -S IP
+   ______________________
+
+   ___________________________        Create credentials.txt :
+  [  Using a Credentials File ]       username = admin   
+   ___________________________        password = Pass123456 
+                                      domain = CORP
+                                      Then smbclient //IP/C$ -A credentials.txt 
+                                      
+______________________________________________________________________________________________________________________________________________________
+#Script Shell : Liste des Partages SMB
+#!/bin/bash
+
+# Variables
+TARGET_IP="$1"      # Adresse IP de la cible
+USERNAME="admin"    # Nom d'utilisateur SMB
+PASSWORD="Password123" # Mot de passe SMB
+
+# Vérification de l'IP cible
+if [ -z "$TARGET_IP" ]; then
+    echo "Usage: $0 <target_IP>"
+    exit 1
+fi
+
+# Commande smbclient pour lister les partages
+echo "Listing SMB shares on $TARGET_IP..."
+smbclient -L "$TARGET_IP" -U "$USERNAME%$PASSWORD" -N -I "$TARGET_IP"
+
+# Vérification du statut de la commande
+if [ $? -eq 0 ]; then
+    echo "SMB shares listed successfully."
+else
+    echo "Failed to list SMB shares on $TARGET_IP."
+fi
+______________________________________________________________________________________________________________________________________________________
+sudo vim list_smb_shares.sh
+chmod +x list_smb_shares.sh
+./list_smb_shares.sh IP_CIBLE
+Vérifier port 445 ouvert: 
+nmap -p 445 <IP_cible>
+______________________________________________________________________________________________________________________________________________________
+
+Références: 
+https://www.samba.org/samba/docs/current/man-html/smbclient.1.html
+https://github.com/noobosaurus-r3x/Cheat-sheets/blob/main/SMBClient%20Cheat%20Sheet.md
+______________________________________________________________________________________________________________________________________________________
+
+   
