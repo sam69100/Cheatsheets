@@ -1,4 +1,4 @@
-# SMBClient Cheat Sheet
+# smbclient cheat sheet
 
 ## Connection
 ### Anonymous/Guest Access
