@@ -185,4 +185,4 @@ With these commands, you can perform complete discovery and interact with SMB sh
 
 ## References
 - [SMBMap GitHub Repository](https://github.com/ShawnDEvans/smbmap)
-- [Enum4Linux GitHub Repository](https://github.com/noobosaurus-r3x/)
+- [noobosaurus-r3x GitHub Repository](https://github.com/noobosaurus-r3x/)
