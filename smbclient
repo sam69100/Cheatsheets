@@ -67,8 +67,9 @@ nmap -p 445 <IP_cible>
 ______________________________________________________________________________________________________________________________________________________
 
 Références: 
-https://www.samba.org/samba/docs/current/man-html/smbclient.1.html
-https://github.com/noobosaurus-r3x/Cheat-sheets/blob/main/SMBClient%20Cheat%20Sheet.md
+- [smbclient Man Page](https://www.samba.org/samba/docs/current/man-html/smbclient.1.html)  
+
+- [https://github.com/noobosaurus-r3x/Cheat-sheets](https://github.com/noobosaurus-r3x/Cheat-sheets/blob/main/SMBClient%20Cheat%20Sheet.md)  
 ______________________________________________________________________________________________________________________________________________________
 
    
