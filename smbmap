@@ -1,12 +1,13 @@
-
+______________________________________________________________________________________________________________________________________________________
                                                     [ - smbmap cheat sheet - ] 
-
+______________________________________________________________________________________________________________________________________________________
 
 Null Session (Guest Access):
 smbmap -u '' -p '' -d . -H IP
-
+______________________________________________________________________________________________________________________________________________________
 Authenticated Access:
 smbmap -u admin -p '123456' -d WORKGROUP -H IP 
+______________________________________________________________________________________________________________________________________________________
 
  ____________________            List All Shares: smbmap -H IP
 [ Share Enumeration  ]           Check Specific Share: smbmap -H IP -s 'C$'
@@ -35,7 +36,55 @@ smbmap -u admin -p '123456' -d WORKGROUP -H IP
 [ Brute-Force Share Names  ]      Liste les utilisateurs : enum4linux -U IP     
  __________________________       Liste les partages disponibles : enum4linux -S IP     
 
+____________________________________________________________________________________________________
+nmap peut scanner les partages SMB en utilisant des scripts intégrés :
+nmap -p 445 --script=smb-enum-shares,smb-enum-users IP
+
+Scripts SMB communs :
+smb-enum-shares : Liste les partages SMB.
+smb-enum-users : Liste les utilisateurs SMB.
+smb-os-discovery : Détecte les détails du système d'exploitation.
+
+______________________________________________________________________________________________________________________________________________________
+Pour un scan plus complet :
+nmap -p 139,445 --script smb-* IP
+______________________________________________________________________________________________________________________________________________________
+Pour lister les partages SMB directement à partir d'une machine cible :  smbclient -L //IP -U <nom_utilisateur>
+Si aucun utilisateur/mot de passe n'est requis, utilisez : smbclient -L //IP -N
+______________________________________________________________________________________________________________________________________________________
+Accès aux Partages SMB:
+Connexion à un Partage avec smbclient (Une fois les partages identifiés, connectez-vous) : smbclient //IP/<nom_du_partage> -U <nom_utilisateur>
+Exemple sans mot de passe :  smbclient //IP/<nom_du_partage> -N
+
+______________________________________________________________________________________________________________________________________________________
+Commandes utiles dans smbclient :
+
+ls : Liste les fichiers et dossiers.
+get <fichier> : Télécharge un fichier.
+put <fichier> : Envoie un fichier.
+exit : Quitte smbclient.
+______________________________________________________________________________________________________________________________________________________
+Montage Local avec mount.cifs :
+Pour monter un partage SMB localement sur votre machine Linux :  sudo mount.cifs //IP/<nom_du_partage> /point/de/montage -o username=<nom_utilisateur>
+Si aucun mot de passe n'est requis :  sudo mount.cifs //IP/<nom_du_partage> /point/de/montage -o guest
+
+______________________________________________________________________________________________________________________________________________________
+                                 Exemple de Workflow Complet :
+______________________________________________________________________________________________________________________________________________________
+
+1°) Découverte avec enum4linux :  enum4linux -a IP
+
+2°) Scan avec nmap :  nmap -p 139,445 --script=smb-enum-shares,smb-enum-users IP
+
+3°) Lister les Partages avec smbclient : smbclient -L //IP -N
+
+4°) Connexion à un Partage :  smbclient //IP/share_name -U user
+
+5°) Montage Local : sudo mount.cifs //IP/share_name /mnt/share -o username=user
+
+Avec ces commandes, vous pouvez effectuer une découverte complète et interagir avec des partages SMB sur un réseau.
 
 
+______________________________________________________________________________________________________________________________________________________
 Références : https://github.com/ShawnDEvans/smbmap and https://github.com/noobosaurus-r3x/
-                            
+______________________________________________________________________________________________________________________________________________________                       
