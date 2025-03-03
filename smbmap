@@ -1,0 +1,41 @@
+
+                                                    [ - smbmap cheat sheet - ] 
+
+
+Null Session (Guest Access):
+smbmap -u '' -p '' -d . -H IP
+
+Authenticated Access:
+smbmap -u admin -p '123456' -d WORKGROUP -H IP 
+
+ ____________________            List All Shares: smbmap -H IP
+[ Share Enumeration  ]           Check Specific Share: smbmap -H IP -s 'C$'
+ ____________________            Check Shares with Full Permissions: smbmap -H IP -R  
+                            
+
+ ____________________            Download a File: smbmap -u admin -p '123456' -H IP --download 'C$\private.txt'
+[ File Operations   ]            Upload a File:  smbmap -u admin -p '123456' -H IP --upload '/tmp/payload.exe' 'C$\Windows\Temp\payload.exe' 
+ ____________________            Recursive Directory Listing: smbmap -u guest -p '' -H IP -R 'Documents'  
+
+
+ ____________________            Run a Command (exampple : whoami): smbmap -u admin -p '123456' -H IP -x 'whoami'  
+[ Command Execution  ]           Execute a PowerShell Script: smbmap -u admin -p '123456' -H IP -x 'powershell -c "Get-Process"'    
+ ____________________
+
+ __________________________       Enumerate Users :  smbmap -H IP --users 
+[ User & Permission Checks ]      Check Admin Access :   smbmap -u admin -p '123456' -H IP --admin  
+ __________________________
+
+
+ _____________________            Port Redirection (Target non-standard SMB port (example: 8445): smbmap -H IP -P 8445  
+[ Advanced Techniques ]           Read-Only Checks (Check if shares are writable) : smbmap -u guest -p '' -H IP --no-write-check  
+ _____________________            
+
+ __________________________       Effectue un balayage complet (équivalent à toutes les options) : enum4linux -a IP
+[ Brute-Force Share Names  ]      Liste les utilisateurs : enum4linux -U IP     
+ __________________________       Liste les partages disponibles : enum4linux -S IP     
+
+
+
+Références : https://github.com/ShawnDEvans/smbmap and https://github.com/noobosaurus-r3x/
+                            
