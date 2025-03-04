@@ -1,0 +1,42 @@
+# Cheat Sheet - Outils Linux pour Extraire des Données
+
+# Images
+exiftool image.jpg                         # Extraire métadonnées (EXIF)
+tesseract image.png output -l fra         # OCR pour extraire texte (langue française)
+pdftoppm -png file.pdf output             # Convertir PDF en images PNG
+
+# Fichiers ZIP
+unzip -p archive.zip file.txt             # Extraire contenu d’un fichier sans décompresser
+zipinfo -l archive.zip                    # Lister contenu avec détails
+less archive.zip                          # Voir contenu interactivement
+
+# Fichiers PDF
+pdfimages -j file.pdf output              # Extraire images en JPG
+pdftotext file.pdf output.txt             # Extraire texte
+pdftohtml -c file.pdf output.html         # Convertir en HTML avec images
+poppler-utils                             # Paquet pour pdfimages/pdftotext
+
+# Autres Formats
+7z x archive.7z                           # Extraire contenu (7z, rar, etc.)
+dtrx archive.tar.gz                       # Extraction intelligente (tar, zip, etc.)
+file file.unknown                         # Identifier type de fichier
+strings binaryfile                        # Extraire chaînes lisibles
+
+# Métadonnées Génériques
+exiftool file.any                         # Extraire métadonnées de divers formats
+mat2 file.any                             # Supprimer métadonnées (pré-extraction)
+
+Explications
+Images : exiftool cible les métadonnées, tesseract fait de l’OCR, pdftoppm extrait des images depuis des PDF.
+
+ZIP : unzip -p lit sans décompresser, zipinfo et less explorent l’archive.
+
+PDF : pdfimages extrait les images, pdftotext le texte, pdftohtml crée une version HTML.
+
+Autres : 7z et dtrx gèrent divers formats, file identifie, strings récupère du texte brut.
+
+Métadonnées : exiftool est polyvalent, mat2 nettoie avant extraction si besoin.
+
+Prérequis
+Installez les outils via votre gestionnaire de paquets (ex. : sudo apt install tesseract-ocr poppler-utils unzip p7zip-full dtrx exiftool mat2 sur Debian/Ubuntu).
+
