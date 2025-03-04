@@ -1,0 +1,91 @@
+# cheat sheet tshark
+
+Une référence rapide pour les commandes courantes de **Tshark**, l’interface CLI de Wireshark pour capturer et analyser le trafic réseau, avec fonctions, commandes et exemples.
+
+---
+
+## 1. Capturer le trafic sur une interface
+**Fonction** : Écouter le trafic réseau sur une interface spécifique.  
+**Commande** : `tshark -i <interface>`  
+**Exemple** : `tshark -i eth0`  
+- Capture tous les paquets sur l’interface eth0.
+
+---
+
+## 2. Limiter le nombre de paquets capturés
+**Fonction** : Arrêter après un nombre défini de paquets.  
+**Commande** : `tshark -i <interface> -c <count>`  
+**Exemple** : `tshark -i eth0 -c 100`  
+- Capture 100 paquets sur eth0 et s’arrête.
+
+---
+
+## 3. Filtrer par adresse IP
+**Fonction** : Capturer le trafic d’une IP source ou destination.  
+**Commande** : `tshark -i <interface> -f "host <ip>"`  
+**Exemple** : `tshark -i eth0 -f "host 192.168.1.10"`  
+- Capture le trafic entrant/sortant de 192.168.1.10.
+
+---
+
+## 4. Filtrer par port
+**Fonction** : Capturer le trafic sur un port spécifique.  
+**Commande** : `tshark -i <interface> -f "port <port>"`  
+**Exemple** : `tshark -i eth0 -f "port 80"`  
+- Capture uniquement le trafic HTTP (port 80).
+
+---
+
+## 5. Sauvegarder la capture dans un fichier
+**Fonction** : Enregistrer les paquets dans un fichier .pcap.  
+**Commande** : `tshark -i <interface> -w <filename>`  
+**Exemple** : `tshark -i eth0 -w capture.pcap`  
+- Sauvegarde la capture dans capture.pcap.
+
+---
+
+## 6. Lire un fichier de capture
+**Fonction** : Analyser un fichier .pcap existant.  
+**Commande** : `tshark -r <filename>`  
+**Exemple** : `tshark -r capture.pcap`  
+- Lit et affiche les paquets de capture.pcap.
+
+---
+
+## 7. Afficher les champs spécifiques
+**Fonction** : Extraire des champs précis (ex. : IP, port).  
+**Commande** : `tshark -r <filename> -T fields -e <field1> -e <field2>`  
+**Exemple** : `tshark -r capture.pcap -T fields -e ip.src -e ip.dst`  
+- Affiche les IP source et destination des paquets.
+
+---
+
+## 8. Filtrer après capture
+**Fonction** : Appliquer un filtre d’affichage sur un fichier .pcap.  
+**Commande** : `tshark -r <filename> -Y "<display_filter>"`  
+**Exemple** : `tshark -r capture.pcap -Y "http.request"`  
+- Affiche uniquement les requêtes HTTP dans capture.pcap.
+
+---
+
+## 9. Capturer avec détails verbeux
+**Fonction** : Afficher des informations détaillées sur les paquets.  
+**Commande** : `tshark -i <interface> -V`  
+**Exemple** : `tshark -i eth0 -V`  
+- Capture et montre les détails complets des paquets sur eth0.
+
+---
+
+## 10. Statistiques sur le trafic
+**Fonction** : Générer des statistiques (ex. : conversations).  
+**Commande** : `tshark -r <filename> -z <statistic_type>`  
+**Exemple** : `tshark -r capture.pcap -z conv,ip`  
+- Affiche les statistiques des conversations IP.
+
+---
+
+## Notes importantes
+- **Permissions** : Nécessite des privilèges root (ex. : `sudo tshark`).
+- **Installation** :  
+  ```bash
+  sudo apt update && sudo apt install -y tshark
