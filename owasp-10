@@ -319,4 +319,5 @@ Moyens:
 - Utiliser timeout: Defaults env_reset,timestamp_timeout=5 (sudoers).  
 - Vérifier PATH: secure_path="/usr/bin:/bin" (sudoers).
 
+______________________________________________________________________________________________________________________________________________________
 
