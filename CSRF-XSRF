@@ -1,0 +1,95 @@
+cheat sheet - CSRF (Cross-Site Request Forgery) / XSRF
+
+Ce document détaille les attaques CSRF (ou XSRF), leurs mécanismes, exemples et défenses, à utiliser dans des environnements contrôlés et légaux uniquement.
+
+Comprendre CSRF/XSRF
+
+Une attaque CSRF exploite la confiance d’un site envers un utilisateur authentifié pour exécuter des actions non désirées via des requêtes forgées.
+Aspect : Cible
+Description : Actions sensibles (ex. : transferts, modifications)
+Aspect : Condition
+Description : Utilisateur authentifié avec session active
+Aspect : Moyen
+Description : Requête falsifiée (GET, POST, etc.)
+Aspect : Impact
+Description : Exécution d’actions au nom de la victime
+Exemples d'attaques CSRF
+
+Attaques via requête GET
+Exemple : <img src="http://site.com/transfer?amount=1000&to=attaquant">
+Description : Transfert d'argent via une balise image
+Exemple : <a href="http://site.com/delete?user=123">Supprimer</a>
+Description : Suppression de compte via un lien cliquable
+Attaques via formulaire POST
+Exemple :  
+<form action="http://site.com/update" method="POST">  
+  <input type="hidden" name="email" value="hacked@evil.com">  
+</form>  
+<script>document.forms[0].submit()</script>  
+Description : Formulaire auto-soumis via JavaScript
+Attaques via redirection
+Exemple : <meta http-equiv="refresh" content="0;url=http://site.com/logout">
+Description : Déconnexion forcée via redirection
+Vecteurs d’attaque courants
+
+Vecteur : Balises HTML
+Explication : <img>, <iframe> ou <script> avec URL malveillante
+Vecteur : Liens piégés
+Explication : Liens cliquables envoyés par email ou chat
+Vecteur : Formulaires cachés
+Explication : Soumission automatique via JavaScript
+Vecteur : Requêtes AJAX
+Explication : Exploitation de CORS mal configuré
+Préventions contre CSRF
+
+Mécanismes de base
+Méthode : Jeton CSRF
+Description : Ajouter un token unique par session ou requête
+Méthode : Méthode POST
+Description : Utiliser POST au lieu de GET pour les actions
+Méthode : Double soumission de cookie
+Description : Vérifier un cookie contre un champ caché
+Exemples d’implémentation
+Technique : Jeton dans formulaire
+Code/Exemple :  
+<form method="POST" action="/update">  
+  <input type="hidden" name="csrf_token" value="abcd1234">  
+</form>
+Technique : Validation serveur
+Code/Exemple : Vérifier csrf_token contre une valeur en session
+Technique : En-tête personnalisé
+Code/Exemple : Ajouter X-CSRF-Token dans les requêtes AJAX
+Contournements possibles
+Faille : Jeton statique
+Explication : Token réutilisable ou non unique
+Faille : CORS mal configuré
+Explication : Permet des requêtes cross-origin non protégées
+Faille : Absence de validation
+Explication : Token présent mais non vérifié côté serveur
+Détection de vulnérabilités CSRF
+
+Test : Analyse des requêtes
+Méthode : Vérifier si les actions sensibles utilisent GET ou POST sans token
+Test : Outils
+Méthode : Burp Suite, OWASP ZAP (scan passif/actif)
+Test : Symptôme
+Méthode : Action réussie sans interaction explicite
+Variantes avancées
+
+Login CSRF
+Exemple :  
+<form action="http://site.com/login" method="POST">  
+  <input type="hidden" name="username" value="attaquant">  
+  <input type="hidden" name="password" value="1234">  
+</form>  
+Description : Force l’utilisateur à se connecter avec un compte attaquant
+CSRF + XSS  
+Combiner XSS pour injecter un script qui exécute une requête CSRF dynamiquement.
+
+Précautions  
+Usage légal uniquement : Tests dans des environnements autorisés.  
+
+Outils recommandés : Burp Suite, Postman pour simuler des requêtes.  
+
+Standards : Suivre les recommandations OWASP CSRF Cheat Sheet.
+
