@@ -19,7 +19,7 @@ Ce document présente le **Top 10 OWASP 2021** (version la plus récente largeme
   6. Limiter les endpoints sensibles : Restreindre `/admin` avec un middleware (ex. : Express.js).
   7. Auditer les accès : Logger chaque tentative (`log.info("Access to /admin by user {}", userId);`).
   8. Tester les autorisations : Simuler des utilisateurs avec Burp Suite.
-______________________________________________________________________________________________________________________________________________________
+---
 ### A02:2021 - Défaillances cryptographiques
 - **Description** : Mauvais usage ou absence de chiffrement pour protéger les données sensibles.
 - **Côté** : Backend (principalement), mais le frontend peut exposer des données s’il les manipule mal.
@@ -33,7 +33,7 @@ ________________________________________________________________________________
   6. Implémenter HSTS : `Strict-Transport-Security: max-age=31536000` (Header HTTP).
   7. Valider les certificats : `curl --cert-status` (côté serveur).
   8. Stocker les clés en sécurité : HashiCorp Vault.
-
+---
 ### A03:2021 - Injection
 - **Description** : Données non fiables exécutées comme code (SQL, OS, LDAP, etc.).
 - **Côté** : Backend (principalement), mais le frontend peut contribuer s’il envoie des données non validées.
@@ -47,7 +47,7 @@ ________________________________________________________________________________
   6. Limiter les privilèges de la BDD : `GRANT SELECT ON users TO 'app_user';` (SQL).
   7. Filtrer les caractères spéciaux : Rejeter `;` ou `--` dans les inputs.
   8. Auditer les journaux : Vérifier les requêtes suspectes avec un SIEM.
-
+---
 ### A04:2021 - Conception non sécurisée
 - **Description** : Mauvaise architecture ou absence de principes sécurisés dès la conception.
 - **Côté** : Backend et Frontend (les deux, dépend du design global).
@@ -61,7 +61,7 @@ ________________________________________________________________________________
   6. Documenter les exigences de sécurité : Inclure dans le SDLC.
   7. Former les équipes : Sessions sur Secure Design Patterns.
   8. Réviser l’architecture : Audits réguliers par des experts.
-
+---
 ### A05:2021 - Mauvaise configuration de sécurité
 - **Description** : Paramètres par défaut ou exposés laissant des failles.
 - **Côté** : Backend (principalement), mais le frontend peut révéler des configs mal protégées.
@@ -75,7 +75,7 @@ ________________________________________________________________________________
   6. Utiliser des fichiers .env : `DATABASE_URL=secret` hors du code source.
   7. Vérifier les permissions : `chmod 644 config.php`.
   8. Scanner les configs : Outils comme Nessus ou OpenVAS.
-
+---
 ### A06:2021 - Composants vulnérables et obsolètes
 - **Description** : Utilisation de bibliothèques ou logiciels non maintenus.
 - **Côté** : Backend et Frontend (les deux, selon les dépendances).
@@ -89,7 +89,7 @@ ________________________________________________________________________________
   6. Documenter les composants : Maintenir un fichier `dependencies.md`.
   7. Appliquer des patches temporaires : Si mise à jour impossible.
   8. Surveiller les alertes : Abonnement aux flux RSS de sécurité.
-
+---
 ### A07:2021 - Défaillances d’authentification et de gestion de sessions
 - **Description** : Mauvaise gestion des identifiants ou des sessions.
 - **Côté** : Backend (principalement), mais le frontend peut exposer des tokens.
@@ -103,7 +103,7 @@ ________________________________________________________________________________
   6. Expirer les sessions : Timeout de 15 min (`session.gc_maxlifetime = 900`).
   7. Vérifier les tokens : `jwt.verify(token, secret)` (Backend).
   8. Sensibiliser les utilisateurs : Messages sur les mots de passe forts.
-
+---
 ### A08:2021 - Défaillances d’intégrité des données et logiciels
 - **Description** : Données ou logiciels compromis par manque de validation ou signature.
 - **Côté** : Backend (principalement), mais le frontend peut être affecté par des scripts tiers.
