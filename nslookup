@@ -1,0 +1,135 @@
+
+
+cheat sheet - nslookup
+
+Ce document présente les commandes nslookup essentielles pour effectuer des recherches DNS et diagnostiquer des noms de domaine.
+
+1. Comprendre nslookup
+
+nslookup (Name Server Lookup) est un outil pour interroger les serveurs DNS et obtenir des enregistrements (A, MX, NS, etc.) sur un domaine.
+
+Aspect : Utilisation
+Description : Recherche DNS, résolution, dépannage réseau
+
+Aspect : Syntaxe de base
+Description : nslookup [options] [nom_de_domaine] [serveur]
+
+Aspect : Modes
+Description : Interactif ou non interactif
+
+2. Commandes de base
+
+Commande : nslookup example.com
+Description : Résout l’adresse IP d’un domaine
+
+Commande : nslookup -type=mx example.com
+Description : Récupère les serveurs de messagerie (MX)
+
+Commande : nslookup 8.8.8.8
+Description : Résolution inverse (IP vers domaine)
+
+3. Options courantes (non interactif)
+
+Types d’enregistrements
+
+Option : -type=A
+Exemple : nslookup -type=A example.com
+Description : Récupère l’adresse IPv4
+
+Option : -type=AAAA
+Exemple : nslookup -type=AAAA example.com
+Description : Récupère l’adresse IPv6
+
+Option : -type=MX
+Exemple : nslookup -type=MX example.com
+Description : Liste les serveurs de mail
+
+Option : -type=NS
+Exemple : nslookup -type=NS example.com
+Description : Liste les serveurs de noms
+
+Option : -type=SOA
+Exemple : nslookup -type=SOA example.com
+Description : Enregistrement SOA (autorité)
+
+Configuration
+
+Option : [serveur]
+Exemple : nslookup example.com 8.8.8.8
+Description : Utilise un serveur DNS spécifique
+
+Option : -debug
+Exemple : nslookup -debug example.com
+Description : Affiche les détails de la requête
+
+Option : -port=
+Exemple : nslookup -port=5353 example.com
+Description : Spécifie un port DNS personnalisé
+
+4. Mode interactif
+
+Commandes internes
+
+Commande : nslookup
+Exemple : Lance le mode interactif
+Description :
+
+Commande : server 8.8.8.8
+Exemple : server 8.8.8.8
+Description : Change le serveur DNS
+
+Commande : set type=A
+Exemple : set type=A
+Description : Définit le type d’enregistrement
+
+Commande : example.com
+Exemple : example.com
+Description : Interroge le domaine spécifié
+
+Commande : exit
+Exemple : exit
+Description : Quitte le mode interactif
+
+5. Exemples pratiques
+
+Recherche DNS
+
+Commande : nslookup google.com
+Description : Résout l’IP de google.com
+
+Commande : nslookup -type=MX gmail.com
+Description : Liste les serveurs mail de Gmail
+
+Commande : nslookup -type=NS example.com
+Description : Liste les serveurs de noms
+
+Diagnostic
+
+Commande : nslookup 1.2.3.4
+Description : Résolution inverse d’une IP
+
+Commande : nslookup -debug example.com
+Description : Affiche les détails de résolution
+
+Avec serveur spécifique
+
+Commande : nslookup example.com 1.1.1.1
+Description : Utilise le DNS de Cloudflare
+
+Commande : nslookup -type=TXT example.com 8.8.8.8
+Description : Récupère TXT via Google DNS
+
+6. Mode interactif - Exemple
+
+> nslookup
+> server 8.8.8.8
+> set type=MX
+> gmail.com
+(Affiche les enregistrements MX de gmail.com)
+> exit
+
+7. Précautions
+
+- Usage légal : Ne pas abuser des requêtes sur des domaines non autorisés.
+- Limites : Peut varier selon l’OS (Windows vs Linux).
+- Compléments : Utiliser avec dig ou host pour plus de précision.
