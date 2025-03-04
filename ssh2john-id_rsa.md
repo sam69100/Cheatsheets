@@ -3,9 +3,13 @@
 Une référence rapide pour utiliser **ssh2john** avec une clé privée **id_rsa**, afin de convertir et craquer son mot de passe avec John the Ripper, avec fonctions, commandes et exemples.
 
 wget https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py -O ssh2john.py
+
 ou
+
 curl -o ssh2john.py https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py
+
 chmod +x ssh2john.py
+
 python3 ssh2john.py /chemin/vers/id_rsa > hash.txt
 
 ---
