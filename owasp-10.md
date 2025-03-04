@@ -11,8 +11,8 @@ Ce document présente le **Top 10 OWASP 2021** (version la plus récente largeme
 - **Côté** : Backend (principalement), mais influencé par une mauvaise implémentation frontend.
 - **Exemple** : Modification de `user_id=123` en `user_id=456` dans une requête pour voir les données d’un autre utilisateur.
 - **Moyens de sécurisation** :
-  1. Vérifier les permissions côté serveur : `if (user.role !== "admin") return 403;` (Node.js).
-  2. Utiliser un contrôle d’accès basé sur les rôles (RBAC) : `@PreAuthorize("hasRole('ADMIN')")` (Spring Security).
+  - Vérifier les permissions côté serveur : `if (user.role !== "admin") return 403;` (Node.js).
+  - Utiliser un contrôle d’accès basé sur les rôles (RBAC) : `@PreAuthorize("hasRole('ADMIN')")` (Spring Security).
   3. Ne pas exposer les ID sensibles dans les URL : Utiliser des UUID (`/profile/8f4e3b2a` au lieu de `/profile/1`).
   4. Implémenter une validation stricte des sessions : `session.userId === requestedId` (Backend).
   5. Utiliser des tokens JWT avec vérification : `jwt.verify(token, secret)` (Node.js).
