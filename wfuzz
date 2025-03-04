@@ -1,0 +1,127 @@
+
+cheat sheet - wfuzz
+
+Ce document présente les commandes wfuzz essentielles pour le fuzzing web, la découverte de ressources et le test de sécurité, à utiliser dans des environnements autorisés uniquement.
+
+
+1. Comprendre Wfuzz
+
+Wfuzz est un outil de fuzzing pour tester les applications web en remplaçant des parties d’une URL ou de requêtes par des valeurs d’une liste (wordlist).
+
+Aspect : Utilisation
+Description : Découverte de fichiers, bruteforce, tests de vulnérabilités
+
+Aspect : Syntaxe de base
+Description : wfuzz [options] -u [URL] -w [wordlist]
+
+Aspect : Mot-clé
+Description : FUZZ : Placeholder pour les valeurs à tester
+
+2. Commandes de base
+
+Commande : wfuzz -u http://example.com/FUZZ -w wordlist.txt
+Description : Fuzze une URL avec une wordlist
+
+Commande : wfuzz -u http://example.com/ -d "user=FUZZ" -w users.txt
+Description : Bruteforce un paramètre POST
+
+Commande : wfuzz -u http://example.com/FUZZ.php -w list.txt --hc 404
+Description : Ignore les erreurs 404
+
+3. Options courantes
+
+Configuration de la requête
+
+Option : -u
+Exemple : -u http://example.com/FUZZ
+Description : URL cible avec placeholder FUZZ
+
+Option : -w
+Exemple : -w /path/to/wordlist.txt
+Description : Chemin vers la wordlist
+
+Option : -d
+Exemple : -d "key=FUZZ"
+Description : Données POST à fuzzer
+
+Option : -H
+Exemple : -H "Cookie: session=abc123"
+Description : Ajoute un en-tête HTTP
+
+Filtrage des réponses
+
+Option : --hc
+Exemple : --hc 404
+Description : Cache les réponses avec code 404
+
+Option : --hw
+Exemple : --hw 100
+Description : Cache les réponses avec 100 mots
+
+Option : --hl
+Exemple : --hl 50
+Description : Cache les réponses avec 50 lignes
+
+Option : --sc
+Exemple : --sc 200
+Description : Montre uniquement les codes 200
+
+Performance
+
+Option : -z
+Exemple : -z range,1-100
+Description : Génère une liste (ex. : 1 à 100)
+
+Option : -t
+Exemple : -t 50
+Description : Nombre de threads (défaut : 10)
+
+Option : -s
+Exemple : -s 0.1
+Description : Délai entre requêtes (en secondes)
+
+4. Exemples pratiques
+
+Découverte de répertoires/fichiers
+
+Commande : wfuzz -u http://example.com/FUZZ -w dirlist.txt --hc 404
+Description : Cherche des répertoires/fichiers
+
+Commande : wfuzz -u http://example.com/FUZZ.php -w files.txt --sc 200
+Description : Trouve les fichiers PHP existants
+
+Bruteforce de paramètres
+
+Commande : wfuzz -u http://example.com/?id=FUZZ -w ids.txt --hc 404
+Description : Teste des ID dans une URL
+
+Commande : wfuzz -u http://example.com/login -d "user=FUZZ&pass=admin" -w users.txt
+Description : Bruteforce un login POST
+
+Tests avancés
+
+Commande : wfuzz -u http://example.com/FUZZ -w list.txt -H "User-Agent: FuzzTest"
+Description : Ajoute un en-tête personnalisé
+
+Commande : wfuzz -u http://example.com/?q=FUZZ -w payloads.txt --hw 0
+Description : Teste les payloads XSS/SQLi
+
+5. Wordlists utiles
+
+Type : Répertoires
+Exemple : dirb/common.txt
+Description : Liste de répertoires courants
+
+Type : Fichiers
+Exemple : dirb/big.txt
+Description : Liste de fichiers potentiels
+
+Type : Paramètres
+Exemple : raft-medium-words.txt
+Description : Noms de paramètres ou mots clés
+
+6. Précautions
+
+- Usage légal : Tests uniquement sur des cibles autorisées.
+- Performance : Ajuster -t pour éviter de surcharger le serveur.
+- Compléments : Utiliser avec Burp Suite ou curl pour analyser les résultats.
