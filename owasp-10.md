@@ -226,3 +226,52 @@ Ce guide couvre le **Top 10 OWASP 2021** ainsi que des failles typiques en pente
   8. Utiliser 2FA : `google-authenticator` pour SSH/users.
   9. Segmenter le réseau : VLAN ou règles `iptables`.
   10. Scanner les vulnérabilités : `nmap -sV --script vuln localhost`.
+---
+## 5. Sécurisation spécifique : FTP, SSH et faille Sudo
+
+### a) Sécurisation FTP
+- **Description** : Protéger le service FTP contre les accès non autorisés et les transferts non sécurisés.
+- **Côté** : Backend (système/réseau).
+- **Moyens de sécurisation** :
+  1. Forcer FTPS : `ssl enable` dans `vsftpd.conf`.
+  2. Désactiver FTP clair : `ssl_tlsv1=yes` (vsftpd).
+  3. Restreindre utilisateurs : `userlist_enable=YES` et `userlist_file=/etc/vsftpd.userlist`.
+  4. Limiter ports : `ufw allow 21` uniquement.
+  5. Chroot utilisateurs : `chroot_local_user=YES` (vsftpd.conf).
+  6. Surveiller logs : `tail -f /var/log/vsftpd.log`.
+  7. Désactiver anonyme : `anonymous_enable=NO` (vsftpd.conf).
+  8. Mettre à jour : `apt update && apt upgrade vsftpd`.
+  9. Filtrer IP : `iptables -A INPUT -p tcp --dport 21 -s trusted_ip -j ACCEPT`.
+  10. Tester sécurité : `nmap -p 21 localhost`.
+
+### b) Sécurisation SSH
+- **Description** : Renforcer SSH contre les attaques par force brute et accès non autorisés.
+- **Côté** : Backend (système/réseau).
+- **Moyens de sécurisation** :
+  1. Désactiver root : `PermitRootLogin no` (sshd_config).
+  2. Utiliser clés : `ssh-keygen -t rsa` et `PasswordAuthentication no`.
+  3. Changer port : `Port 2222` (sshd_config).
+  4. Limiter utilisateurs : `AllowUsers user1 user2` (sshd_config).
+  5. Activer 2FA : `google-authenticator` pour SSH.
+  6. Bloquer brute force : `fail2ban` sur `/var/log/auth.log`.
+  7. Forcer protocoles forts : `Protocol 2` (sshd_config).
+  8. Mettre à jour : `apt update && apt upgrade openssh-server`.
+  9. Filtrer IP : `iptables -A INPUT -p tcp --dport 22 -s trusted_ip -j ACCEPT`.
+  10. Surveiller : `tail -f /var/log/auth.log`.
+
+### c) Sécurisation faille Sudo (escalade verticale)
+- **Description** : Empêcher l’escalade de privilèges via une mauvaise configuration sudo.
+- **Côté** : Backend (système).
+- **Moyens de sécurisation** :
+  1. Limiter commandes : `user1 ALL=(ALL) /bin/ls` (visudo).
+  2. Exiger mot de passe : `Defaults passwd_tries=3` (sudoers).
+  3. Désactiver NOPASSWD : Supprimer `NOPASSWD` dans `/etc/sudoers`.
+  4. Restreindre groupes : `sudo groupadd restricted && usermod -G restricted user1`.
+  5. Auditer logs : `tail -f /var/log/auth.log | grep sudo`.
+  6. Mettre à jour sudo : `apt update && apt upgrade sudo`.
+  7. Tester config : `sudo -l` pour vérifier permissions.
+  8. Supprimer sudo inutile : `deluser user1 sudo` (groupe sudo).
+  9. Utiliser timeout : `Defaults env_reset,timestamp_timeout=5` (sudoers).
+  10. Vérifier PATH : `secure_path="/usr/bin:/bin"` (sudoers).
+
+---
