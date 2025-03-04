@@ -1,0 +1,97 @@
+# cheat sheet ssh2john et id_rsa
+
+Une référence rapide pour utiliser **ssh2john** avec une clé privée **id_rsa**, afin de convertir et craquer son mot de passe avec John the Ripper, avec fonctions, commandes et exemples.
+
+wget https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py -O ssh2john.py
+ou
+curl -o ssh2john.py https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py
+chmod +x ssh2john.py
+python3 ssh2john.py /chemin/vers/id_rsa > hash.txt
+
+---
+
+## 1. Convertir une clé id_rsa en hash
+**Fonction** : Transformer une clé privée SSH en format John.  
+**Commande** : `ssh2john <id_rsa_file> > <output_file>`  
+**Exemple** : `ssh2john id_rsa > id_rsa.hash`  
+- Converti id_rsa en un hash stocké dans id_rsa.hash.
+
+---
+
+## 2. Craquer le hash avec une liste de mots
+**Fonction** : Utiliser John pour craquer le mot de passe de la clé.  
+**Commande** : `john --wordlist=<wordlist> <hash_file>`  
+**Exemple** : `john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hash`  
+- Tente de craquer le mot de passe avec rockyou.txt.
+
+---
+
+## 3. Convertir et craquer en une seule ligne
+**Fonction** : Combiner conversion et cracking en une étape.  
+**Commande** : `ssh2john <id_rsa_file> | john --wordlist=<wordlist> -`  
+**Exemple** : `ssh2john id_rsa | john --wordlist=/usr/share/wordlists/rockyou.txt -`  
+- Converti id_rsa et craque immédiatement via un pipe.
+
+---
+
+## 4. Vérifier les permissions de la clé
+**Fonction** : S’assurer que id_rsa a les bonnes permissions avant conversion.  
+**Commande** : `chmod 600 <id_rsa_file>`  
+**Exemple** : `chmod 600 id_rsa`  
+- Restreint les permissions à l’utilisateur uniquement avant ssh2john.
+
+---
+
+## 5. Craquer avec force brute
+**Fonction** : Tester toutes les combinaisons possibles si la liste échoue.  
+**Commande** : `john --incremental <hash_file>`  
+**Exemple** : `john --incremental id_rsa.hash`  
+- Lance une attaque par force brute sur id_rsa.hash.
+
+---
+
+## 6. Afficher le mot de passe craqué
+**Fonction** : Voir le mot de passe trouvé après cracking.  
+**Commande** : `john --show <hash_file>`  
+**Exemple** : `john --show id_rsa.hash`  
+- Affiche le mot de passe craqué pour id_rsa.
+
+---
+
+## 7. Utiliser un chemin spécifique pour ssh2john
+**Fonction** : Exécuter ssh2john depuis son emplacement par défaut.  
+**Commande** : `/usr/share/john/ssh2john.py <id_rsa_file> > <output_file>`  
+**Exemple** : `/usr/share/john/ssh2john.py id_rsa > id_rsa.hash`  
+- Utilise le script Python ssh2john sur Kali Linux.
+
+---
+
+## 8. Tester avec un mot de passe connu
+**Fonction** : Vérifier ssh2john avec une clé dont le mot de passe est connu.  
+**Commande** : `ssh2john <id_rsa_file> > test.hash && john --wordlist=<small_list> test.hash`  
+**Exemple** : `ssh2john id_rsa > test.hash && john --wordlist=small_list.txt test.hash`  
+- Crée un hash et teste avec une petite liste contenant "password123".
+
+---
+
+## 9. Convertir une clé avec erreur de format
+**Fonction** : Gérer une clé non reconnue par ssh2john.  
+**Commande** : `ssh-keygen -p -f <id_rsa_file> -m pem`  
+**Exemple** : `ssh-keygen -p -f id_rsa -m pem`  
+- Convertit id_rsa en format PEM si ssh2john échoue (puis relancer ssh2john).
+
+---
+
+## 10. Sauvegarder le mot de passe craqué
+**Fonction** : Exporter le mot de passe trouvé dans un fichier.  
+**Commande** : `john --show <hash_file> > <output_file>`  
+**Exemple** : `john --show id_rsa.hash > cracked_pass.txt`  
+- Sauvegarde le mot de passe de id_rsa dans cracked_pass.txt.
+
+---
+
+## Notes importantes
+- **Permissions** : Nécessite un accès en lecture à id_rsa (`chmod 600` recommandé).
+- **Installation** : ssh2john est inclus avec John :
+  ```bash
+  sudo apt update && sudo apt install -y john
