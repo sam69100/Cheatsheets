@@ -1,0 +1,133 @@
+
+cheat sheet - host
+
+Ce document présente les commandes host essentielles pour effectuer des recherches DNS et obtenir des informations sur les noms de domaine.
+
+1. Comprendre host
+
+host est un utilitaire pour interroger les serveurs DNS et récupérer des enregistrements (A, MX, NS, etc.) associés à un domaine.
+
+Aspect : Utilisation
+Description : Recherche DNS, résolution de noms, diagnostic
+
+Aspect : Syntaxe de base
+Description : host [options] [nom_de_domaine] [serveur]
+
+Aspect : Sortie par défaut
+Description : Adresses IP ou enregistrements DNS
+
+2. Commandes de base
+
+Commande : host example.com
+Description : Résout l’adresse IP d’un domaine
+
+Commande : host -t mx example.com
+Description : Récupère les serveurs de messagerie (MX)
+
+Commande : host 8.8.8.8
+Description : Résolution inverse (IP vers domaine)
+
+3. Options courantes
+
+Types d’enregistrements
+
+Option : -t A
+Exemple : host -t A example.com
+Description : Récupère l’adresse IPv4
+
+Option : -t AAAA
+Exemple : host -t AAAA example.com
+Description : Récupère l’adresse IPv6
+
+Option : -t MX
+Exemple : host -t MX example.com
+Description : Liste les serveurs de mail
+
+Option : -t NS
+Exemple : host -t NS example.com
+Description : Liste les serveurs de noms
+
+Option : -t SOA
+Exemple : host -t SOA example.com
+Description : Enregistrement SOA (autorité)
+
+Configuration
+
+Option : -a
+Exemple : host -a example.com
+Description : Affiche tous les enregistrements
+
+Option : -v
+Exemple : host -v -t A example.com
+Description : Mode verbeux
+
+Option : [serveur]
+Exemple : host example.com 8.8.8.8
+Description : Utilise un serveur DNS spécifique
+
+Autres
+
+Option : -r
+Exemple : host -r example.com
+Description : Désactive la récursion
+
+Option : -4
+Exemple : host -4 example.com
+Description : Force IPv4 uniquement
+
+Option : -6
+Exemple : host -6 example.com
+Description : Force IPv6 uniquement
+
+4. Exemples pratiques
+
+Recherche DNS
+
+Commande : host google.com
+Description : Résout l’IP de google.com
+
+Commande : host -t MX gmail.com
+Description : Liste les serveurs mail de Gmail
+
+Commande : host -a example.com
+Description : Affiche tous les enregistrements DNS
+
+Diagnostic
+
+Commande : host 1.2.3.4
+Description : Résolution inverse d’une IP
+
+Commande : host -v example.com 8.8.8.8
+Description : Détails avec serveur DNS Google
+
+Tests spécifiques
+
+Commande : host -t TXT example.com
+Description : Récupère les enregistrements TXT (ex. SPF)
+
+Commande : host -t CNAME sub.example.com
+Description : Résout un alias CNAME
+
+5. Utilisations avancées
+
+Vérification de configuration
+
+Commande : host -t NS example.com
+Description : Vérifie les serveurs de noms actifs
+
+Commande : host -t SOA example.com
+Description : Vérifie l’autorité du domaine
+
+Debugging
+
+Commande : host -v -t A example.com
+Description : Affiche les détails de résolution
+
+Commande : host example.com 1.1.1.1
+Description : Teste avec un serveur DNS alternatif (Cloudflare)
+
+6. Précautions
+
+- Usage légal : Ne pas abuser des requêtes sur des domaines non autorisés.
+- Limites : Dépend des réponses du serveur DNS interrogé.
+- Compléments : Utiliser avec dig ou nslookup pour plus de détails.
