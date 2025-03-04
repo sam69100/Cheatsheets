@@ -91,4 +91,3 @@ Une référence rapide pour les commandes courantes de **Gobuster**, avec foncti
 
 ---
 
-*Cheat sheet créée le 04 mars 2025 par Grok (xAI).*
