@@ -1,0 +1,127 @@
+
+cheat sheet - cURL
+
+Ce document présente les commandes cURL essentielles pour effectuer des requêtes HTTP, télécharger des fichiers et tester des API, à utiliser dans des environnements contrôlés.
+
+
+1. Comprendre cURL
+
+cURL (Client URL) est un outil pour transférer des données via divers protocoles (HTTP, HTTPS, FTP, etc.) depuis ou vers un serveur.
+
+Aspect : Utilisation
+Description : Requêtes HTTP, téléchargements, tests API
+
+Aspect : Syntaxe de base
+Description : curl [options] [URL]
+
+Aspect : Sortie par défaut
+Description : Contenu brut dans le terminal
+
+2. Commandes de base
+
+Commande : curl http://example.com
+Description : Récupère le contenu d’une page web
+
+Commande : curl -o file.html http://example.com
+Description : Sauvegarde la réponse dans un fichier
+
+Commande : curl -O http://example.com/file.zip
+Description : Télécharge avec le nom d’origine
+
+3. Options courantes
+
+Requêtes HTTP
+
+Option : -X
+Exemple : curl -X POST http://api.com
+Description : Spécifie la méthode HTTP (GET, POST, etc.)
+
+Option : -H
+Exemple : curl -H "Authorization: Bearer token" url
+Description : Ajoute un en-tête HTTP
+
+Option : -d
+Exemple : curl -d "key=value" -X POST url
+Description : Envoie des données POST
+
+Option : -i
+Exemple : curl -i http://example.com
+Description : Inclut les en-têtes dans la réponse
+
+Gestion des fichiers
+
+Option : -o
+Exemple : curl -o output.html url
+Description : Sauvegarde sous un nom spécifique
+
+Option : -O
+Exemple : curl -O http://site.com/file.zip
+Description : Utilise le nom du fichier distant
+
+Option : --upload-file
+Exemple : curl --upload-file file.txt url
+Description : Envoie un fichier au serveur
+
+Autres
+
+Option : -v
+Exemple : curl -v http://example.com
+Description : Mode verbeux (détails de la requête)
+
+Option : -k
+Exemple : curl -k https://insecure.com
+Description : Ignore les erreurs SSL
+
+Option : -L
+Exemple : curl -L http://example.com
+Description : Suit les redirections
+
+4. Exemples pratiques
+
+Requêtes simples
+
+Commande : curl http://api.example.com/data
+Description : Récupère des données brutes
+
+Commande : curl -i http://example.com
+Description : Affiche en-têtes + corps de la réponse
+
+Requêtes API
+
+Commande : curl -X POST -H "Content-Type: application/json" -d '{"key":"value"}' http://api.com
+Description : Envoie du JSON
+
+Commande : curl -u user:pass http://api.com
+Description : Authentification basique
+
+Téléchargements
+
+Commande : curl -O http://site.com/image.jpg
+Description : Télécharge une image
+
+Commande : curl -C - -O http://site.com/bigfile.zip
+Description : Reprend un téléchargement interrompu
+
+5. Tests avancés
+
+Simulation d’attaques
+
+Commande : curl -d "user=admin' OR 1=1 --" url
+Description : Test d’injection SQL
+
+Commande : curl -H "Referer: http://evil.com" url
+Description : Test de falsification de Referer
+
+Debugging
+
+Commande : curl -v -X GET http://example.com
+Description : Affiche les détails de la requête/réponse
+
+Commande : curl --trace-ascii log.txt url
+Description : Enregistre un log détaillé
+
+6. Précautions
+
+- Sécurité : Évitez -k en production (ignore SSL).
+- Usage légal : Tests uniquement sur des serveurs autorisés.
+- Outils complémentaires : Associez avec jq pour traiter JSON.
