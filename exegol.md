@@ -1,0 +1,22 @@
+# cheat sheet exegol
+
+---
+
+## Installation
+- `pipx install exegol`
+
+---
+
+## Gestion
+- `exegol install`  
+- `exegol update`  
+- `exegol start myコンテナ`  
+- `exegol stop myコンテナ`  
+- `exegol remove myコンテナ`  
+- `exegol images`
+
+---
+
+## Aide
+- `exegol -h`  
+- `exegol start -h`
