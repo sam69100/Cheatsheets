@@ -19,7 +19,7 @@ Ce document présente le **Top 10 OWASP 2021** (version la plus récente largeme
   6. Limiter les endpoints sensibles : Restreindre `/admin` avec un middleware (ex. : Express.js).
   7. Auditer les accès : Logger chaque tentative (`log.info("Access to /admin by user {}", userId);`).
   8. Tester les autorisations : Simuler des utilisateurs avec Burp Suite.
-
+______________________________________________________________________________________________________________________________________________________
 ### A02:2021 - Défaillances cryptographiques
 - **Description** : Mauvais usage ou absence de chiffrement pour protéger les données sensibles.
 - **Côté** : Backend (principalement), mais le frontend peut exposer des données s’il les manipule mal.
