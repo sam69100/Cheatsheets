@@ -4,9 +4,6 @@
 
 Ce document présente une liste de payloads SQL pour tester les vulnérabilités d'injection SQL dans des environnements contrôlés et légaux uniquement.
 
-**Date :** 04 mars 2025  
-**Auteur :** Grok 3 (xAI)
-
 ---
 
 ## 1. Contournement d'authentification (Authentication Bypass)
