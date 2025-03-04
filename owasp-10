@@ -274,16 +274,16 @@ Desc: Protéger le service FTP contre les accès non autorisés et les transfert
 Côté: Backend (système/réseau).  
 
 Moyens:  
-Forcer FTPS: ssl enable dans vsftpd.conf.  
-Désactiver FTP clair: ssl_tlsv1=yes (vsftpd).  
-Restreindre utilisateurs: userlist_enable=YES et userlist_file=/etc/vsftpd.userlist.  
-Limiter ports: ufw allow 21 uniquement.  
-Chroot utilisateurs: chroot_local_user=YES (vsftpd.conf).  
-Surveiller logs: tail -f /var/log/vsftpd.log.  
-Désactiver anonyme: anonymous_enable=NO (vsftpd.conf).  
-Mettre à jour: apt update && apt upgrade vsftpd.  
-Filtrer IP: iptables -A INPUT -p tcp --dport 21 -s trusted_ip -j ACCEPT.  
-Tester sécurité: nmap -p 21 localhost.
+- Forcer FTPS: ssl enable dans vsftpd.conf.  
+- Désactiver FTP clair: ssl_tlsv1=yes (vsftpd).  
+- Restreindre utilisateurs: userlist_enable=YES et userlist_file=/etc/vsftpd.userlist.  
+- Limiter ports: ufw allow 21 uniquement.  
+- Chroot utilisateurs: chroot_local_user=YES (vsftpd.conf).  
+- Surveiller logs: tail -f /var/log/vsftpd.log.  
+- Désactiver anonyme: anonymous_enable=NO (vsftpd.conf).  
+- Mettre à jour: apt update && apt upgrade vsftpd.  
+- Filtrer IP: iptables -A INPUT -p tcp --dport 21 -s trusted_ip -j ACCEPT.  
+- Tester sécurité: nmap -p 21 localhost.
 
 b) Sécurisation SSH  
 Desc: Renforcer SSH contre les attaques par force brute et accès non autorisés.  
@@ -291,16 +291,16 @@ Desc: Renforcer SSH contre les attaques par force brute et accès non autorisés
 Côté: Backend (système/réseau).  
 
 Moyens:  
-Désactiver root: PermitRootLogin no (sshd_config).  
-Utiliser clés: ssh-keygen -t rsa et PasswordAuthentication no.  
-Changer port: Port 2222 (sshd_config).  
-Limiter utilisateurs: AllowUsers user1 user2 (sshd_config).  
-Activer 2FA: google-authenticator pour SSH.  
-Bloquer brute force: fail2ban sur /var/log/auth.log.  
-Forcer protocoles forts: Protocol 2 (sshd_config).  
-Mettre à jour: apt update && apt upgrade openssh-server.  
-Filtrer IP: iptables -A INPUT -p tcp --dport 22 -s trusted_ip -j ACCEPT.  
-Surveiller: tail -f /var/log/auth.log.
+- Désactiver root: PermitRootLogin no (sshd_config).  
+- Utiliser clés: ssh-keygen -t rsa et PasswordAuthentication no.  
+- Changer port: Port 2222 (sshd_config).  
+- Limiter utilisateurs: AllowUsers user1 user2 (sshd_config).  
+- Activer 2FA: google-authenticator pour SSH.  
+- Bloquer brute force: fail2ban sur /var/log/auth.log.  
+- Forcer protocoles forts: Protocol 2 (sshd_config).  
+- Mettre à jour: apt update && apt upgrade openssh-server.  
+- Filtrer IP: iptables -A INPUT -p tcp --dport 22 -s trusted_ip -j ACCEPT.  
+- Surveiller: tail -f /var/log/auth.log.
 
 c) Sécurisation faille Sudo (escalade verticale)  
 Desc: Empêcher l’escalade de privilèges via une mauvaise configuration sudo.  
@@ -308,15 +308,15 @@ Desc: Empêcher l’escalade de privilèges via une mauvaise configuration sudo.
 Côté: Backend (système).  
 
 Moyens:  
-Limiter commandes: user1 ALL=(ALL) /bin/ls (visudo).  
-Exiger mot de passe: Defaults passwd_tries=3 (sudoers).  
-Désactiver NOPASSWD: Supprimer NOPASSWD dans /etc/sudoers.  
-Restreindre groupes: sudo groupadd restricted && usermod -G restricted user1.  
-Auditer logs: tail -f /var/log/auth.log | grep sudo.  
-Mettre à jour sudo: apt update && apt upgrade sudo.  
-Tester config: sudo -l pour vérifier permissions.  
-Supprimer sudo inutile: deluser user1 sudo (groupe sudo).  
-Utiliser timeout: Defaults env_reset,timestamp_timeout=5 (sudoers).  
-Vérifier PATH: secure_path="/usr/bin:/bin" (sudoers).
+- Limiter commandes: user1 ALL=(ALL) /bin/ls (visudo).  
+- Exiger mot de passe: Defaults passwd_tries=3 (sudoers).  
+- Désactiver NOPASSWD: Supprimer NOPASSWD dans /etc/sudoers.  
+- Restreindre groupes: sudo groupadd restricted && usermod -G restricted user1.  
+- Auditer logs: tail -f /var/log/auth.log | grep sudo.  
+- Mettre à jour sudo: apt update && apt upgrade sudo.  
+- Tester config: sudo -l pour vérifier permissions.  
+- Supprimer sudo inutile: deluser user1 sudo (groupe sudo).  
+- Utiliser timeout: Defaults env_reset,timestamp_timeout=5 (sudoers).  
+- Vérifier PATH: secure_path="/usr/bin:/bin" (sudoers).
 
 
