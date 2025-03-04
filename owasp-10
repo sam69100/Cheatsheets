@@ -1,5 +1,6 @@
- Top 10 OWASP 2021 (version la plus récente largement adoptée à ce jour, sauf mise à jour en 2025 non précisée ici), suivi des failles courantes dans les pentests systèmes et réseaux, avec pour chaque faille : son emplacement (frontend, backend ou les deux), une explication, et 8 moyens de sécurisation avec des exemples concrets. Je vais organiser cela clairement pour répondre à ta demande.
-
+ Top 10 OWASP 2021 (version la plus récente largement adoptée à ce jour, sauf mise à jour en 2025 non précisée ici), suivi des failles courantes dans les pentests systèmes et réseaux, avec pour chaque faille : 
+son emplacement (frontend, backend ou les deux), une explication, et 8 moyens de sécurisation avec des exemples concrets. 
+______________________________________________________________________________________________________________________________________________________
 1. Top 10 OWASP 2021
 A01:2021 - Contrôle d'accès défaillant
 Description : Les utilisateurs accèdent à des ressources ou fonctionnalités sans autorisation appropriée.
@@ -9,22 +10,22 @@ Côté : Backend (principalement), mais peut être influencé par une mauvaise i
 Exemple : Un utilisateur modifie user_id=123 en user_id=456 dans une requête pour voir des données d’un autre utilisateur.
 
 Moyens de sécurisation :
-Vérifier les permissions côté serveur : if (user.role !== "admin") return 403; (Node.js).
+- Vérifier les permissions côté serveur : if (user.role !== "admin") return 403; (Node.js).
 
-Utiliser un contrôle d’accès basé sur les rôles (RBAC) : Framework comme Spring Security (@PreAuthorize("hasRole('ADMIN')")).
+- Utiliser un contrôle d’accès basé sur les rôles (RBAC) : Framework comme Spring Security (@PreAuthorize("hasRole('ADMIN')")).
 
-Ne pas exposer les ID sensibles dans les URL : Utiliser des UUID (/profile/8f4e3b2a au lieu de /profile/1).
+- Ne pas exposer les ID sensibles dans les URL : Utiliser des UUID (/profile/8f4e3b2a au lieu de /profile/1).
 
-Implémenter une validation stricte des sessions : session.userId === requestedId (Backend).
+- Implémenter une validation stricte des sessions : session.userId === requestedId (Backend).
 
-Utiliser des tokens JWT avec vérification : jwt.verify(token, secret) (Node.js).
+- Utiliser des tokens JWT avec vérification : jwt.verify(token, secret) (Node.js).
 
-Limiter les endpoints sensibles : Restreindre /admin avec un middleware (ex. : Express.js).
+- Limiter les endpoints sensibles : Restreindre /admin avec un middleware (ex. : Express.js).
 
-Auditer les accès : Logger chaque tentative (log.info("Access to /admin by user {}", userId);).
+- Auditer les accès : Logger chaque tentative (log.info("Access to /admin by user {}", userId);).
 
-Tester les autorisations : Simuler des utilisateurs avec des outils comme Burp Suite.
-
+- Tester les autorisations : Simuler des utilisateurs avec des outils comme Burp Suite.
+______________________________________________________________________________________________________________________________________________________
 A02:2021 - Défaillances cryptographiques
 Description : Mauvais usage ou absence de chiffrement pour protéger les données sensibles.
 
@@ -33,22 +34,22 @@ Côté : Backend (principalement), mais le frontend peut exposer des données s�
 Exemple : Transmission de mots de passe en clair via HTTP.
 
 Moyens de sécurisation :
-Forcer HTTPS : Configurer une redirection (Redirect permanent / http://example.com/ dans Nginx).
+- Forcer HTTPS : Configurer une redirection (Redirect permanent / http://example.com/ dans Nginx).
 
-Chiffrer les données sensibles : openssl_encrypt(data, "AES-256-CBC", key) (PHP).
+- Chiffrer les données sensibles : openssl_encrypt(data, "AES-256-CBC", key) (PHP).
 
-Hacher les mots de passe : bcrypt.hash(password, 12) (Node.js).
+- Hacher les mots de passe : bcrypt.hash(password, 12) (Node.js).
 
-Utiliser des clés fortes : Générer avec openssl genrsa -out private.key 2048.
+- Utiliser des clés fortes : Générer avec openssl genrsa -out private.key 2048.
 
-Désactiver les algorithmes faibles : Dans Apache, SSLCipherSuite !MD5 !RC4.
+- Désactiver les algorithmes faibles : Dans Apache, SSLCipherSuite !MD5 !RC4.
 
-Implémenter HSTS : Strict-Transport-Security: max-age=31536000 (Header HTTP).
+- Implémenter HSTS : Strict-Transport-Security: max-age=31536000 (Header HTTP).
 
-Valider les certificats : Vérifier la chaîne SSL côté serveur (curl --cert-status).
+- Valider les certificats : Vérifier la chaîne SSL côté serveur (curl --cert-status).
 
-Stocker les clés en sécurité : Utiliser un gestionnaire comme HashiCorp Vault.
-
+- Stocker les clés en sécurité : Utiliser un gestionnaire comme HashiCorp Vault.
+______________________________________________________________________________________________________________________________________________________
 A03:2021 - Injection
 Description : Données non fiables exécutées comme code (SQL, OS, LDAP, etc.).
 
@@ -57,22 +58,22 @@ Côté : Backend (principalement), mais le frontend peut contribuer s’il envoi
 Exemple : SELECT * FROM users WHERE name = 'admin' OR '1'='1';.
 
 Moyens de sécurisation :
-Utiliser des requêtes paramétrées : stmt = conn.prepare("SELECT * FROM users WHERE name = ?") (Java).
+- Utiliser des requêtes paramétrées : stmt = conn.prepare("SELECT * FROM users WHERE name = ?") (Java).
 
-Échapper les entrées : htmlspecialchars(input, ENT_QUOTES) (PHP).
+- Échapper les entrées : htmlspecialchars(input, ENT_QUOTES) (PHP).
 
-Valider les entrées : Regex comme ^[a-zA-Z0-9]+$ pour les noms d’utilisateur.
+- Valider les entrées : Regex comme ^[a-zA-Z0-9]+$ pour les noms d’utilisateur.
 
-Utiliser un ORM sécurisé : User.findById(id) (Sequelize).
+- Utiliser un ORM sécurisé : User.findById(id) (Sequelize).
 
-Désactiver l’exécution dynamique : disable_functions = exec,shell_exec (PHP.ini).
+- Désactiver l’exécution dynamique : disable_functions = exec,shell_exec (PHP.ini).
 
-Limiter les privilèges de la BDD : GRANT SELECT ON users TO 'app_user'; (SQL).
+- Limiter les privilèges de la BDD : GRANT SELECT ON users TO 'app_user'; (SQL).
 
-Filtrer les caractères spéciaux : Rejeter ; ou -- dans les inputs.
+- Filtrer les caractères spéciaux : Rejeter ; ou -- dans les inputs.
 
-Auditer les journaux : Vérifier les requêtes suspectes avec un SIEM.
-
+- Auditer les journaux : Vérifier les requêtes suspectes avec un SIEM.
+______________________________________________________________________________________________________________________________________________________
 A04:2021 - Conception non sécurisée
 Description : Mauvaise architecture ou absence de principes sécurisés dès la conception.
 
@@ -81,22 +82,22 @@ Côté : Backend et Frontend (les deux, car cela dépend du design global).
 Exemple : Absence de validation des limites d’API entraînant une surcharge.
 
 Moyens de sécurisation :
-Appliquer le principe du moindre privilège : chmod 600 fichier_sensible.
+- Appliquer le principe du moindre privilège : chmod 600 fichier_sensible.
 
-Implémenter une limitation de débit : app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })) (Express.js).
+- Implémenter une limitation de débit : app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })) (Express.js).
 
-Utiliser des modèles de menace : STRIDE pour identifier les risques.
+- Utiliser des modèles de menace : STRIDE pour identifier les risques.
 
-Valider les flux de données : Vérifier chaque étape d’une transaction.
+- Valider les flux de données : Vérifier chaque étape d’une transaction.
 
-Tester les scénarios d’abus : Simuler avec des outils comme OWASP ZAP.
+- Tester les scénarios d’abus : Simuler avec des outils comme OWASP ZAP.
 
-Documenter les exigences de sécurité : Inclure dans le SDLC.
+- Documenter les exigences de sécurité : Inclure dans le SDLC.
 
-Former les équipes : Sessions sur les Secure Design Patterns.
+- Former les équipes : Sessions sur les Secure Design Patterns.
 
-Réviser l’architecture : Audits réguliers par des experts.
-
+- Réviser l’architecture : Audits réguliers par des experts.
+______________________________________________________________________________________________________________________________________________________
 A05:2021 - Mauvaise configuration de sécurité
 Description : Paramètres par défaut ou exposés laissant des failles.
 
@@ -105,22 +106,22 @@ Côté : Backend (principalement), mais le frontend peut révéler des configs m
 Exemple : Port 22 SSH ouvert avec mot de passe par défaut.
 
 Moyens de sécurisation :
-Désactiver les services inutiles : systemctl disable apache2.
+- Désactiver les services inutiles : systemctl disable apache2.
 
-Changer les valeurs par défaut : Modifier admin/admin en credentials uniques.
+- Changer les valeurs par défaut : Modifier admin/admin en credentials uniques.
 
-Restreindre les ports : ufw deny 22 (pare-feu).
+- Restreindre les ports : ufw deny 22 (pare-feu).
 
-Supprimer les métadonnées : Désactiver Server: Apache dans les headers.
+- Supprimer les métadonnées : Désactiver Server: Apache dans les headers.
 
-Mettre à jour les logiciels : apt update && apt upgrade.
+- Mettre à jour les logiciels : apt update && apt upgrade.
 
-Utiliser des fichiers .env : DATABASE_URL=secret hors du code source.
+- Utiliser des fichiers .env : DATABASE_URL=secret hors du code source.
 
-Vérifier les permissions : chmod 644 config.php.
+- Vérifier les permissions : chmod 644 config.php.
 
-Scanner les configs : Outils comme Nessus ou OpenVAS.
-
+- Scanner les configs : Outils comme Nessus ou OpenVAS.
+______________________________________________________________________________________________________________________________________________________
 A06:2021 - Composants vulnérables et obsolètes
 Description : Utilisation de bibliothèques ou logiciels non maintenus.
 
@@ -129,22 +130,22 @@ Côté : Backend et Frontend (les deux, selon les dépendances utilisées).
 Exemple : Utilisation de jQuery 1.9 avec une faille XSS connue.
 
 Moyens de sécurisation :
-Mettre à jour les dépendances : npm update ou composer update.
+- Mettre à jour les dépendances : npm update ou composer update.
 
-Vérifier les CVE : Consulter cve.mitre.org pour chaque composant.
+- Vérifier les CVE : Consulter cve.mitre.org pour chaque composant.
 
-Utiliser des outils d’analyse : Dependabot ou Snyk.
+- Utiliser des outils d’analyse : Dependabot ou Snyk.
 
-Supprimer les dépendances inutiles : npm prune.
+- Supprimer les dépendances inutiles : npm prune.
 
-Tester les versions : Simuler avec docker run -it old_version.
+- Tester les versions : Simuler avec docker run -it old_version.
 
-Documenter les composants : Maintenir un fichier dependencies.md.
+- Documenter les composants : Maintenir un fichier dependencies.md.
 
-Appliquer des patches temporaires : Si mise à jour impossible.
+- Appliquer des patches temporaires : Si mise à jour impossible.
 
-Surveiller les alertes : Abonnement aux flux RSS de sécurité.
-
+- Surveiller les alertes : Abonnement aux flux RSS de sécurité.
+______________________________________________________________________________________________________________________________________________________
 A07:2021 - Défaillances d’authentification et de gestion de sessions
 Description : Mauvaise gestion des identifiants ou des sessions.
 
@@ -153,22 +154,22 @@ Côté : Backend (principalement), mais le frontend peut exposer des tokens.
 Exemple : Session ID dans l’URL.
 
 Moyens de sécurisation :
-Utiliser des cookies sécurisés : Set-Cookie: session_id=abc; HttpOnly; Secure.
+- Utiliser des cookies sécurisés : Set-Cookie: session_id=abc; HttpOnly; Secure.
 
-Implémenter 2FA : totp.verify(token) (Node.js).
+- Implémenter 2FA : totp.verify(token) (Node.js).
 
-Régénérer les sessions : session_regenerate_id(true) (PHP).
+- Régénérer les sessions : session_regenerate_id(true) (PHP).
 
-Limiter les tentatives : Bloquer après 5 échecs (fail2ban).
+- Limiter les tentatives : Bloquer après 5 échecs (fail2ban).
 
-Hacher les mots de passe : Argon2.hash(password).
+- Hacher les mots de passe : Argon2.hash(password).
 
-Expirer les sessions : Timeout de 15 min (session.gc_maxlifetime = 900).
+- Expirer les sessions : Timeout de 15 min (session.gc_maxlifetime = 900).
 
-Vérifier les tokens : jwt.verify(token, secret) (Backend).
+- Vérifier les tokens : jwt.verify(token, secret) (Backend).
 
-Sensibiliser les utilisateurs : Messages sur les mots de passe forts.
-
+- Sensibiliser les utilisateurs : Messages sur les mots de passe forts.
+______________________________________________________________________________________________________________________________________________________
 A08:2021 - Défaillances d’intégrité des données et logiciels
 Description : Données ou logiciels compromis par manque de validation ou de signature.
 
@@ -177,22 +178,22 @@ Côté : Backend (principalement), mais le frontend peut être affecté par des 
 Exemple : Téléchargement d’un package non signé.
 
 Moyens de sécurisation :
-Signer les mises à jour : gpg --sign package.tar.gz.
+- Signer les mises à jour : gpg --sign package.tar.gz.
 
-Vérifier les hachages : sha256sum fichier vs valeur officielle.
+- Vérifier les hachages : sha256sum fichier vs valeur officielle.
 
-Utiliser HTTPS pour les téléchargements : wget https://site/trusted.
+- Utiliser HTTPS pour les téléchargements : wget https://site/trusted.
 
-Valider les inputs : if (!isValidJson(data)) reject();.
+- Valider les inputs : if (!isValidJson(data)) reject();.
 
-Scanner les dépendances : npm audit.
+- Scanner les dépendances : npm audit.
 
-Contrôler les sources : Restreindre à des dépôts officiels (apt sources.list).
+- Contrôler les sources : Restreindre à des dépôts officiels (apt sources.list).
 
-Chiffrer les backups : tar -czf - | openssl enc -aes-256-cbc.
+- Chiffrer les backups : tar -czf - | openssl enc -aes-256-cbc.
 
-Auditer les intégrations : Vérifier les API tierces.
-
+- Auditer les intégrations : Vérifier les API tierces.
+______________________________________________________________________________________________________________________________________________________
 A09:2021 - Défaillances de journalisation et de surveillance
 Description : Absence ou mauvaise gestion des logs pour détecter les attaques.
 
@@ -201,22 +202,22 @@ Côté : Backend (principalement).
 Exemple : Aucune trace d’une connexion suspecte.
 
 Moyens de sécurisation :
-Activer les logs : error_log = /var/log/app.log (PHP).
+- Activer les logs : error_log = /var/log/app.log (PHP).
 
-Centraliser les logs : Utiliser un SIEM comme ELK Stack.
+- Centraliser les logs : Utiliser un SIEM comme ELK Stack.
 
-Inclure des détails : log.info("Login failed for {}", user) (Java).
+- Inclure des détails : log.info("Login failed for {}", user) (Java).
 
-Protéger les logs : chmod 640 /var/log/auth.log.
+- Protéger les logs : chmod 640 /var/log/auth.log.
 
-Surveiller en temps réel : tail -f /var/log/syslog.
+- Surveiller en temps réel : tail -f /var/log/syslog.
 
-Définir des alertes : Notify sur error 500 (ex. : via Slack).
+- Définir des alertes : Notify sur error 500 (ex. : via Slack).
 
-Tester la détection : Simuler une attaque avec Metasploit.
+- Tester la détection : Simuler une attaque avec Metasploit.
 
-Sauvegarder les logs : rsync -a /var/log/ backup_server.
-
+- Sauvegarder les logs : rsync -a /var/log/ backup_server.
+______________________________________________________________________________________________________________________________________________________
 A10:2021 - Falsification de requêtes côté serveur (SSRF)
 Description : Une application effectue des requêtes non contrôlées vers des serveurs internes ou externes.
 
@@ -225,22 +226,22 @@ Côté : Backend (principalement).
 Exemple : curl "http://internal.admin.local" via un paramètre utilisateur.
 
 Moyens de sécurisation :
-Valider les URLs : if (!url.startsWith("https://allowed.com")) reject();.
+- Valider les URLs : if (!url.startsWith("https://allowed.com")) reject();.
 
-Utiliser une liste blanche : allowed = ["trusted.com"];.
+- Utiliser une liste blanche : allowed = ["trusted.com"];.
 
-Désactiver les redirections : curl_setopt(CURLOPT_FOLLOWLOCATION, false) (PHP).
+- Désactiver les redirections : curl_setopt(CURLOPT_FOLLOWLOCATION, false) (PHP).
 
-Restreindre les ports : Bloquer 80, 443 non nécessaires (iptables).
+- Restreindre les ports : Bloquer 80, 443 non nécessaires (iptables).
 
-Filtrer les adresses : Rejeter 127.0.0.1 ou localhost.
+- Filtrer les adresses : Rejeter 127.0.0.1 ou localhost.
 
-Limiter les protocoles : Autoriser uniquement https://.
+- Limiter les protocoles : Autoriser uniquement https://.
 
-Sandboxer les requêtes : Utiliser une VM ou un conteneur.
+- Sandboxer les requêtes : Utiliser une VM ou un conteneur.
 
-Surveiller les appels : Logger chaque requête sortante.
-
+- Surveiller les appels : Logger chaque requête sortante.
+______________________________________________________________________________________________________________________________________________________
 2. Failles courantes dans les pentests systèmes
 Ces failles concernent les systèmes d’exploitation ou les serveurs.
 a) Mots de passe faibles ou par défaut
@@ -249,21 +250,21 @@ Côté : Backend (système).
 Exemple : root/root sur un serveur Linux.
 
 Moyens de sécurisation :
-Imposer des mots de passe forts : passwd -l 12 -c 3 (Linux policy).
+- Imposer des mots de passe forts : passwd -l 12 -c 3 (Linux policy).
 
-Changer les défauts : passwd root immédiatement.
+- Changer les défauts : passwd root immédiatement.
 
-Utiliser SSH par clés : ssh-keygen -t rsa.
+- Utiliser SSH par clés : ssh-keygen -t rsa.
 
-Désactiver les comptes inutiles : usermod -L guest.
+- Désactiver les comptes inutiles : usermod -L guest.
 
-Activer 2FA : google-authenticator pour SSH.
+- Activer 2FA : google-authenticator pour SSH.
 
-Surveiller les échecs : fail2ban sur /var/log/auth.log.
+- Surveiller les échecs : fail2ban sur /var/log/auth.log.
 
-Scanner les mots de passe : Outil comme John the Ripper.
+- Scanner les mots de passe : Outil comme John the Ripper.
 
-Former les admins : Sensibilisation aux bonnes pratiques.
+- Former les admins : Sensibilisation aux bonnes pratiques.
 
 b) Services non patchés
 Côté : Backend (système).
@@ -271,22 +272,22 @@ Côté : Backend (système).
 Exemple : OpenSSL vulnérable à Heartbleed.
 
 Moyens de sécurisation :
-Mettre à jour : yum update openssl.
+- Mettre à jour : yum update openssl.
 
-Vérifier les CVE : nmap --script vuln.
+- Vérifier les CVE : nmap --script vuln.
 
-Désactiver les anciens : systemctl disable old_service.
+- Désactiver les anciens : systemctl disable old_service.
 
-Tester les patches : docker run -it vuln_test.
+- Tester les patches : docker run -it vuln_test.
 
-Surveiller les annonces : Abonnement à securityfocus.com.
+- Surveiller les annonces : Abonnement à securityfocus.com.
 
-Automatiser les mises à jour : unattended-upgrades (Ubuntu).
+- Automatiser les mises à jour : unattended-upgrades (Ubuntu).
 
-Isoler les services : Conteneurs Docker.
+- Isoler les services : Conteneurs Docker.
 
-Auditer régulièrement : Avec Nessus ou Qualys.
-
+- Auditer régulièrement : Avec Nessus ou Qualys.
+______________________________________________________________________________________________________________________________________________________
 3. Failles courantes dans les pentests réseaux
 Ces failles concernent la couche réseau.
 a) Ports ouverts inutilement
@@ -295,21 +296,21 @@ Côté : Backend (réseau).
 Exemple : Port 445 (SMB) exposé publiquement.
 
 Moyens de sécurisation :
-Fermer les ports : ufw deny 445.
+- Fermer les ports : ufw deny 445.
 
-Scanner les ports : nmap -p- localhost.
+- Scanner les ports : nmap -p- localhost.
 
-Limiter les accès : iptables -A INPUT -p tcp --dport 445 -s trusted_ip -j ACCEPT.
+- Limiter les accès : iptables -A INPUT -p tcp --dport 445 -s trusted_ip -j ACCEPT.
 
-Désactiver les services : systemctl stop smb.
+- Désactiver les services : systemctl stop smb.
 
-Utiliser un VPN : OpenVPN pour accès distant.
+- Utiliser un VPN : OpenVPN pour accès distant.
 
-Surveiller le trafic : tcpdump port 445.
+- Surveiller le trafic : tcpdump port 445.
 
-Segmenter le réseau : VLAN pour isoler les machines.
+- Segmenter le réseau : VLAN pour isoler les machines.
 
-Documenter les ports : Liste des services nécessaires.
+- Documenter les ports : Liste des services nécessaires.
 
 b) Protocoles non sécurisés
 Côté : Backend (réseau).
@@ -317,21 +318,21 @@ Côté : Backend (réseau).
 Exemple : Telnet au lieu de SSH.
 
 Moyens de sécurisation :
-Remplacer par des alternatives : apt install openssh-server.
+- Remplacer par des alternatives : apt install openssh-server.
 
-Désactiver les anciens : systemctl disable telnet.
+- Désactiver les anciens : systemctl disable telnet.
 
-Chiffrer les connexions : Forcer SSH avec Protocol 2 dans sshd_config.
+- Chiffrer les connexions : Forcer SSH avec Protocol 2 dans sshd_config.
 
-Vérifier les usages : netstat -tuln | grep 23.
+- Vérifier les usages : netstat -tuln | grep 23.
 
-Filtrer le trafic : iptables -A INPUT -p tcp --dport 23 -j DROP.
+- Filtrer le trafic : iptables -A INPUT -p tcp --dport 23 -j DROP.
 
-Tester la sécurité : telnet localhost (doit échouer).
+- Tester la sécurité : telnet localhost (doit échouer).
 
-Former les utilisateurs : Préférer SSH ou SFTP.
+- Former les utilisateurs : Préférer SSH ou SFTP.
 
-Surveiller les protocoles : Avec Wireshark.
+- Surveiller les protocoles : Avec Wireshark.
 
 Ce guide couvre le Top 10 OWASP ainsi que des failles systèmes et réseaux typiques en pentest, avec des moyens de sécurisation pratiques et des exemples concrets. 
 
