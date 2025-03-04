@@ -1,0 +1,129 @@
+
+cheat sheet - nikto
+
+Ce document présente les commandes nikto essentielles pour scanner les vulnérabilités des serveurs web, à utiliser dans des environnements autorisés uniquement.
+
+
+1. Comprendre Nikto
+
+Nikto est un outil de sécurité qui scanne les serveurs web pour détecter les vulnérabilités, les mauvaises configurations et les fichiers sensibles.
+
+Aspect : Utilisation
+Description : Audit de sécurité, détection de failles
+
+Aspect : Syntaxe de base
+Description : nikto -h [hôte] [options]
+
+Aspect : Sortie par défaut
+Description : Liste des vulnérabilités détectées
+
+2. Commandes de base
+
+Commande : nikto -h http://example.com
+Description : Scan basique d’un site web
+
+Commande : nikto -h 192.168.1.1
+Description : Scan d’une IP
+
+Commande : nikto -h example.com -p 8080
+Description : Scan avec un port spécifique
+
+3. Options courantes
+
+Configuration du scan
+
+Option : -h
+Exemple : -h http://example.com
+Description : Hôte ou URL cible
+
+Option : -p
+Exemple : -p 80,443
+Description : Ports à scanner (séparés par ,)
+
+Option : -T
+Exemple : -T 13
+Description : Active des tests spécifiques (ex. : 1=files, 3=dirs)
+
+Option : -id
+Exemple : -id user:pass
+Description : Authentification basique
+
+Sortie et format
+
+Option : -o
+Exemple : -o report.html
+Description : Sauvegarde dans un fichier (HTML, TXT, etc.)
+
+Option : -F
+Exemple : -F csv
+Description : Format de sortie (csv, txt, xml)
+
+Option : -v
+Exemple : -v
+Description : Mode verbeux
+
+Contrôle
+
+Option : -ssl
+Exemple : -ssl
+Description : Force l’utilisation de SSL/TLS
+
+Option : -nossl
+Exemple : -nossl
+Description : Désactive SSL/TLS
+
+Option : -t
+Exemple : -t 10
+Description : Timeout par connexion (secondes)
+
+Option : -Pause
+Exemple : -Pause 2
+Description : Délai entre tests (secondes)
+
+4. Exemples pratiques
+
+Scan basique
+
+Commande : nikto -h http://example.com
+Description : Analyse complète d’un site
+
+Commande : nikto -h https://example.com -ssl
+Description : Scan HTTPS avec SSL
+
+Scan personnalisé
+
+Commande : nikto -h example.com -p 80,443 -o report.txt
+Description : Ports multiples + rapport
+
+Commande : nikto -h 192.168.1.1 -T 13
+Description : Scan des fichiers et répertoires uniquement
+
+Authentification
+
+Commande : nikto -h example.com -id admin:pass123
+Description : Scan avec login/mot de passe
+
+5. Tests spécifiques (-T)
+
+Code : 0
+Description : Fichiers intéressants/dangereux
+
+Code : 1
+Description : Mauvaises configurations
+
+Code : 3
+Description : Répertoires sensibles
+
+Code : b
+Description : Injection XSS/SQL possibles
+
+Code : x
+Description : Tests de reverse proxy
+
+Exemple : -T 03 teste les fichiers dangereux et les répertoires sensibles.
+
+6. Précautions
+
+- Usage légal : Scans uniquement sur des cibles autorisées.
+- Performance : Ajuster -Pause ou -t pour éviter de surcharger le serveur.
+- Compléments : Utiliser avec nmap ou wfuzz pour une analyse approfondie.
