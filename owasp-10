@@ -335,4 +335,33 @@ Moyens de sécurisation :
 - Surveiller les protocoles : Avec Wireshark.
 
 Ce guide couvre le Top 10 OWASP ainsi que des failles systèmes et réseaux typiques en pentest, avec des moyens de sécurisation pratiques et des exemples concrets. 
+______________________________________________________________________________________________________________________________________________________
+
+4. Dix Moyens de sécurisation globale d’un système
+Desc: Pratiques générales pour sécuriser un système dans son ensemble.  
+
+Côté: Backend, Frontend, Système, Réseau (selon applicability).  
+
+10 Moyens de sécurisation :  
+- Mettre à jour régulièrement: apt update && apt upgrade (Linux).  
+- Activer un pare-feu: ufw enable avec règles strictes.  
+- Chiffrer les disques: cryptsetup luksFormat /dev/sda.  
+- Sauvegarder régulièrement: rsync -a /data /backup.  
+- Surveiller les logs: tail -f /var/log/syslog ou SIEM.  
+- Limiter les privilèges: chmod 700 /sensitive_dir.  
+- Désactiver root distant: PermitRootLogin no (sshd_config).  
+- Utiliser 2FA: google-authenticator pour SSH/users.  
+- Segmenter le réseau: VLAN ou iptables règles.  
+- Scanner vulnérabilités: nmap -sV --script vuln localhost.  
+- Contrôler accès physique: Verrouillage serveurs.  
+- Hacher données sensibles: bcrypt.hash(password, 12) (Node.js).  
+- Forcer HTTPS: Redirect all http:// to https:// (Nginx).  
+- Supprimer services inutiles: systemctl disable telnet.  
+- Tester intrusions: Simuler avec Metasploit.  
+- Former personnel: Sessions cybersécurité annuelles.  
+- Gérer clés: HashiCorp Vault ou ssh-keygen.  
+- Monitorer trafic: tcpdump -i eth0 ou Wireshark.  
+- Isoler environnements: Conteneurs Docker ou VMs.  
+- Plan réponse incident: Doc avec étapes (ex. : isoler, analyser).
+
 
