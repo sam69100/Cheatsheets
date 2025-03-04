@@ -1,0 +1,351 @@
+
+cheat sheet - Principales catégories CWE
+
+Ce document détaille les principales catégories CWE avec 10 moyens de sécurisation chacune, pour des audits et développements sécurisés.
+
+_____________________________________________________________________________________________________________________________
+1. Injection (ex. : CWE-89, CWE-79, CWE-77)
+
+Description : Données non fiables interprétées comme du code ou des commandes.
+
+Moyen de sécurisation : Requêtes paramétrées
+Explication : Éviter l’injection directe
+
+Moyen de sécurisation : Échappement des caractères
+Explication : Neutraliser les caractères spéciaux
+
+Moyen de sécurisation : Validation/Sanitisation
+Explication : Filtrer les données utilisateur
+
+Moyen de sécurisation : ORM sécurisées
+Explication : Réduire les risques
+
+Moyen de sécurisation : Liste blanche
+Explication : Accepter uniquement les entrées prévues
+
+Moyen de sécurisation : WAF
+Explication : Bloquer les attaques courantes
+
+Moyen de sécurisation : Privilèges limités
+Explication : Réduire l’impact
+
+Moyen de sécurisation : Frameworks sécurisés
+Explication : Protection intégrée
+
+Moyen de sécurisation : Encodage des sorties
+Explication : Prévenir l’exécution hors contexte
+
+Moyen de sécurisation : Tests (SQLMap, Burp)
+Explication : Détecter les vulnérabilités
+_____________________________________________________________________________________________________________________________
+2. Gestion de la mémoire (ex. : CWE-120, CWE-787, CWE-416)
+
+Description : Manipulation incorrecte des tampons ou de la mémoire.
+
+Moyen de sécurisation : Langages sécurisés
+Explication : Réduire les erreurs (Java, Python)
+
+Moyen de sécurisation : Vérification des limites
+Explication : Contrôler les accès mémoire
+
+Moyen de sécurisation : Fonctions sécurisées
+Explication : Utiliser strncpy au lieu de strcpy
+
+Moyen de sécurisation : ASLR
+Explication : Rendre les adresses imprévisibles
+
+Moyen de sécurisation : Drapeaux de compilation
+Explication : Activer -fstack-protect
+
+Moyen de sécurisation : Validation des tailles
+Explication : Limiter les entrées
+
+Moyen de sécurisation : Analyse statique
+Explication : Détecter les failles (Coverity)
+
+Moyen de sécurisation : Éviter fonctions dangereuses
+Explication : Remplacer gets, sprintf
+
+Moyen de sécurisation : Mise à jour des dépendances
+Explication : Corriger les failles connues
+
+Moyen de sécurisation : Tests de fuzzing
+Explication : Identifier les débordements
+_____________________________________________________________________________________________________________________________
+3. Authentification et sessions (ex. : CWE-287, CWE-384)
+
+Description : Vérification ou gestion des sessions défaillante.
+
+Moyen de sécurisation : MFA
+Explication : Ajouter une couche de sécurité
+
+Moyen de sécurisation : Hachage des mots de passe
+Explication : Protéger avec bcrypt
+
+Moyen de sécurisation : Régénération des sessions
+Explication : Prévenir le vol
+
+Moyen de sécurisation : Jetons CSRF
+Explication : Sécuriser les formulaires
+
+Moyen de sécurisation : SSL/TLS
+Explication : Garantir une connexion sécurisée
+
+Moyen de sécurisation : Limitation des tentatives
+Explication : Bloquer le bruteforce
+
+Moyen de sécurisation : Expiration des sessions
+Explication : Réduire les fenêtres d’attaque
+
+Moyen de sécurisation : Cookies sécurisés
+Explication : Utiliser HttpOnly, Secure
+
+Moyen de sécurisation : Standards (OAuth2, OpenID)
+Explication : Simplifier l’authentification
+
+Moyen de sécurisation : Audit des logs
+Explication : Détecter les anomalies
+_____________________________________________________________________________________________________________________________
+4. Mauvaise configuration (ex. : CWE-16, CWE-552)
+
+Description : Exposition due à des paramètres mal définis.
+
+Moyen de sécurisation : Désactivation des inutiles
+Explication : Réduire la surface d’attaque
+
+Moyen de sécurisation : Changement des mots de passe
+Explication : Éviter les défauts
+
+Moyen de sécurisation : Restriction des permissions
+Explication : Limiter l’accès
+
+Moyen de sécurisation : Masquer les erreurs
+Explication : Ne pas exposer d’infos
+
+Moyen de sécurisation : Mises à jour
+Explication : Corriger les failles
+
+Moyen de sécurisation : Durcissement
+Explication : Appliquer CIS Benchmarks
+
+Moyen de sécurisation : En-têtes HTTP
+Explication : Protéger contre clickjacking
+
+Moyen de sécurisation : TLS
+Explication : Sécuriser les communications
+
+Moyen de sécurisation : Audits automatisés
+Explication : Vérifier avec OpenSCAP
+
+Moyen de sécurisation : Documentation
+Explication : Assurer la conformité
+_____________________________________________________________________________________________________________________________
+5. Gestion des permissions (ex. : CWE-732, CWE-639)
+
+Description : Mauvais contrôle des privilèges ou accès.
+
+Moyen de sécurisation : Moindre privilège
+Explication : Donner le minimum nécessaire
+
+Moyen de sécurisation : Vérification serveur
+Explication : Valider chaque action
+
+Moyen de sécurisation : RBAC
+Explication : Structurer les accès
+
+Moyen de sécurisation : Chiffrement
+Explication : Protéger les données
+
+Moyen de sécurisation : Audit des permissions
+Explication : Maintenir un contrôle
+
+Moyen de sécurisation : Prévention IDOR
+Explication : Éviter les références directes
+
+Moyen de sécurisation : Restriction des API
+Explication : Limiter l’exposition
+
+Moyen de sécurisation : Jetons d’accès
+Explication : Sécuriser dynamiquement
+
+Moyen de sécurisation : Tests avec comptes
+Explication : Vérifier les privilèges
+
+Moyen de sécurisation : Journalisation
+Explication : Tracer les activités
+_____________________________________________________________________________________________________________________________
+6. Cryptographie (ex. : CWE-327, CWE-330)
+
+Description : Utilisation faible ou incorrecte de la crypto.
+
+Moyen de sécurisation : Algorithmes forts
+Explication : Utiliser AES-256, SHA-256
+
+Moyen de sécurisation : Entropie élevée
+Explication : Générer des clés robustes
+
+Moyen de sécurisation : Bibliothèques sécurisées
+Explication : OpenSSL, Bouncy Castle
+
+Moyen de sécurisation : Protocoles modernes
+Explication : TLS 1.3
+
+Moyen de sécurisation : Éviter les obsolètes
+Explication : Pas de MD5, DES
+
+Moyen de sécurisation : Salage des hachages
+Explication : Salt unique par hachage
+
+Moyen de sécurisation : Validation des certificats
+Explication : Vérifier client/serveur
+
+Moyen de sécurisation : Tests de robustesse
+Explication : Utiliser CryptCheck
+
+Moyen de sécurisation : Stockage sécurisé
+Explication : HSM pour les clés
+
+Moyen de sécurisation : Documentation
+Explication : Justifier les choix
+_____________________________________________________________________________________________________________________________
+7. Gestion des erreurs (ex. : CWE-209, CWE-755)
+
+Description : Exposition ou plantages dus aux erreurs.
+
+Moyen de sécurisation : Masquer les erreurs
+Explication : Ne pas exposer d’infos sensibles
+
+Moyen de sécurisation : Exceptions génériques
+Explication : Messages neutres en production
+
+Moyen de sécurisation : Journalisation
+Explication : Enregistrer sans afficher
+
+Moyen de sécurisation : Validation avant traitement
+Explication : Prévenir les erreurs
+
+Moyen de sécurisation : Tests des edge cases
+Explication : Simuler les échecs
+
+Moyen de sécurisation : Gestionnaires robustes
+Explication : Gérer proprement les exceptions
+
+Moyen de sécurisation : Pas de stack traces
+Explication : Éviter les détails visibles
+
+Moyen de sécurisation : Pages d’erreur personnalisées
+Explication : Rediriger les utilisateurs
+
+Moyen de sécurisation : Monitoring
+Explication : Utiliser Sentry
+
+Moyen de sécurisation : Audit des logs
+Explication : Détecter les anomalies
+_____________________________________________________________________________________________________________________________
+8. Validation des entrées (ex. : CWE-20)
+
+Description : Vérification insuffisante des données entrantes.
+
+Moyen de sécurisation : Validation type/longueur
+Explication : Vérifier avant usage
+
+Moyen de sécurisation : Regex sécurisées
+Explication : Filtrer précisément
+
+Moyen de sécurisation : Sanitisation
+Explication : Nettoyer les données
+
+Moyen de sécurisation : Liste blanche
+Explication : Accepter uniquement le prévu
+
+Moyen de sécurisation : Rejet par défaut
+Explication : Bloquer les invalides
+
+Moyen de sécurisation : Frameworks avec validation
+Explication : Simplifier la vérification
+
+Moyen de sécurisation : Tests avec payloads
+Explication : Simuler des attaques
+
+Moyen de sécurisation : Limiter les tailles
+Explication : Contrôler les buffers
+
+Moyen de sécurisation : Vérification des uploads
+Explication : Type, taille des fichiers
+
+Moyen de sécurisation : Audit des points d’entrée
+Explication : Scanner les vulnérabilités
+_____________________________________________________________________________________________________________________________
+9. Gestion de fichiers (ex. : CWE-22, CWE-434)
+
+Description : Accès ou manipulation non autorisée de fichiers.
+
+Moyen de sécurisation : Validation des chemins
+Explication : Liste blanche des accès
+
+Moyen de sécurisation : Restriction des répertoires
+Explication : Limiter les zones accessibles
+
+Moyen de sécurisation : Sanitisation des noms
+Explication : Éviter les traversées
+
+Moyen de sécurisation : Vérification des uploads
+Explication : Contrôler extensions/MIME
+
+Moyen de sécurisation : Stockage hors racine web
+Explication : Protéger les fichiers
+
+Moyen de sécurisation : Permissions limitées
+Explication : Restreindre l’écriture
+
+Moyen de sécurisation : Sandbox
+Explication : Isoler les uploads
+
+Moyen de sécurisation : Chiffrement
+Explication : Protéger les données
+
+Moyen de sécurisation : Tests avec outils
+Explication : Simuler des traversées (Burp)
+
+Moyen de sécurisation : Journalisation
+Explication : Tracer les accès
+_____________________________________________________________________________________________________________________________
+10. Synchronisation et concurrence (ex. : CWE-362, CWE-367)
+
+Description : Problèmes de threads ou d’accès concurrents.
+
+Moyen de sécurisation : Verrous (locks)
+Explication : Synchroniser les accès
+
+Moyen de sécurisation : Transactions atomiques
+Explication : Garantir l’intégrité
+
+Moyen de sécurisation : Vérification avant/après
+Explication : Prévenir les TOCTOU
+
+Moyen de sécurisation : Minimiser sections critiques
+Explication : Réduire les risques
+
+Moyen de sécurisation : Tests sous charge
+Explication : Simuler la concurrence
+
+Moyen de sécurisation : Bibliothèques thread-safe
+Explication : Simplifier la gestion
+
+Moyen de sécurisation : Éviter variables globales
+Explication : Réduire les conflits
+
+Moyen de sécurisation : Audit des points concurrents
+Explication : Identifier les failles
+
+Moyen de sécurisation : Mise à jour des dépendances
+Explication : Corriger les bugs
+
+Moyen de sécurisation : Documentation
+Explication : Expliquer les scénarios
+
+Précautions
+- Usage légal : Tests sur systèmes autorisés uniquement.
+- Standards : Suivre OWASP, NIST, MITRE.
+- Outils : Nikto, Wfuzz, SonarQube pour audits.
+
