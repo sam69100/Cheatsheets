@@ -209,3 +209,20 @@ Ce document présente le **Top 10 OWASP 2021** (version la plus récente largeme
 ---
 
 Ce guide couvre le **Top 10 OWASP 2021** ainsi que des failles typiques en pentests systèmes et réseaux, avec des moyens de sécurisation pratiques et des exemples concrets.
+---
+# Moyens de sécurisation globale d’un système
+
+## 4. Dix Moyens de sécurisation globale d’un système
+- **Description** : Pratiques générales pour sécuriser un système dans son ensemble.
+- **Côté** : Backend, Frontend, Système, Réseau (selon applicabilité).
+- **Moyens de sécurisation** :
+  1. Mettre à jour régulièrement : `apt update && apt upgrade` (Linux).
+  2. Activer un pare-feu : `ufw enable` avec règles strictes.
+  3. Chiffrer les disques : `cryptsetup luksFormat /dev/sda`.
+  4. Sauvegarder régulièrement : `rsync -a /data /backup`.
+  5. Surveiller les logs : `tail -f /var/log/syslog` ou SIEM.
+  6. Limiter les privilèges : `chmod 700 /sensitive_dir`.
+  7. Désactiver root distant : `PermitRootLogin no` (sshd_config).
+  8. Utiliser 2FA : `google-authenticator` pour SSH/users.
+  9. Segmenter le réseau : VLAN ou règles `iptables`.
+  10. Scanner les vulnérabilités : `nmap -sV --script vuln localhost`.
