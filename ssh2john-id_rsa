@@ -1,6 +1,14 @@
 ___________________________________________________________________________
                     [ cheat sheet ssh2john et id_rsa ]
 ___________________________________________________________________________
+
+wget https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py -O ssh2john.py
+ou
+curl -o ssh2john.py https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/run/ssh2john.py
+chmod +x ssh2john.py
+python3 ssh2john.py /chemin/vers/id_rsa > hash.txt
+
+
 1. Convertir une clé id_rsa en hash
 Fonction : Transformer une clé privée SSH en format John.
 Commande : ssh2john <id_rsa_file> > <output_file>
