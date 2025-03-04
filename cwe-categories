@@ -4,6 +4,8 @@
 
 Ce document détaille les principales catégories CWE avec 10 moyens de sécurisation chacune, pour des audits et développements sécurisés.
 
+
+
 ---
 
 ## 1. Injection (ex. : CWE-89, CWE-79, CWE-77)
