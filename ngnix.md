@@ -83,7 +83,7 @@ server {
 - **Permissions** : Assurez `www-data` ou `nginx` comme propriétaire de `/var/www`.
 - **Usage légal** : Modifications uniquement sur serveurs autorisés.
 - **Sauvegarde** : Sauvegardez les configs avant modification.
-- 
+  
 
 
 
