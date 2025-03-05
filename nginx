@@ -1,37 +1,52 @@
-# nginx.md
 
-## Cheat Sheet - NGINX
+cheat sheet - NGINX
 
 Ce document présente les commandes et configurations essentielles pour gérer un serveur NGINX sous Linux.
 
----
+1. Commandes de gestion
 
-## 1. Commandes de gestion
+Commande : sudo systemctl start nginx
+Description : Démarre le service NGINX
 
-| **Commande**                 | **Description**                                      |
-|------------------------------|-----------------------------------------------------|
-| `sudo systemctl start nginx` | Démarre le service NGINX                            |
-| `sudo systemctl stop nginx`  | Arrête le service NGINX                             |
-| `sudo systemctl restart nginx` | Redémarre NGINX                                   |
-| `sudo systemctl reload nginx` | Recharge la config sans interruption                |
-| `nginx -t`                   | Teste la syntaxe des fichiers de configuration      |
-| `sudo nginx -s reload`       | Recharge NGINX sans systemctl                       |
-| `sudo nginx -v`              | Affiche la version de NGINX                         |
+Commande : sudo systemctl stop nginx
+Description : Arrête le service NGINX
 
----
+Commande : sudo systemctl restart nginx
+Description : Redémarre NGINX
 
-## 2. Fichiers de configuration
+Commande : sudo systemctl reload nginx
+Description : Recharge la config sans interruption
 
-| **Fichier**                  | **Description**                                      |
-|------------------------------|-----------------------------------------------------|
-| `/etc/nginx/nginx.conf`      | Configuration principale                           |
-| `/etc/nginx/sites-available/` | Configurations des sites virtuels                 |
-| `/etc/nginx/sites-enabled/`  | Liens vers les sites actifs                        |
-| `/etc/nginx/conf.d/`         | Configurations supplémentaires                     |
-| `/var/log/nginx/error.log`   | Logs d’erreurs                                      |
-| `/var/log/nginx/access.log`  | Logs d’accès                                        |
+Commande : nginx -t
+Description : Teste la syntaxe des fichiers de configuration
 
----
+Commande : sudo nginx -s reload
+Description : Recharge NGINX sans systemctl
+
+Commande : sudo nginx -v
+Description : Affiche la version de NGINX
+
+2. Fichiers de configuration
+
+Fichier : /etc/nginx/nginx.conf
+Description : Configuration principale
+
+Fichier : /etc/nginx/sites-available/
+Description : Configurations des sites virtuels
+
+Fichier : /etc/nginx/sites-enabled/
+Description : Liens vers les sites actifs
+
+Fichier : /etc/nginx/conf.d/
+Description : Configurations supplémentaires
+
+Fichier : /var/log/nginx/error.log
+Description : Logs d’erreurs
+
+Fichier : /var/log/nginx/access.log
+Description : Logs d’accès
+
+3. Configuration de base (Server Block)
 
 server {
     listen 80;
@@ -45,45 +60,54 @@ server {
     }
 }
 
+4. Sécurisation
 
----
+Action : Masquer la version
+Commande/Configuration : server_tokens off;
 
-## 4. Sécurisation
+Action : Activer SSL
+Commande/Configuration : listen 443 ssl; + certificats
 
-| **Action**                   | **Commande/Configuration**                          |
-|------------------------------|-----------------------------------------------------|
-| Masquer la version           | `server_tokens off;`                                |
-| Activer SSL                  | `listen 443 ssl;` + certificats                     |
-| Désactiver méthodes          | `limit_except GET POST { deny all; }`               |
-| Restreindre accès            | `allow 192.168.1.0/24; deny all;`                   |
-| Activer HSTS                 | `add_header Strict-Transport-Security "max-age=31536000";` |
-| Désactiver répertoires       | `autoindex off;`                                    |
-| Limiter les requêtes         | `limit_req zone=one burst=5;`                       |
-| Configurer SSL sécurisé      | `ssl_protocols TLSv1.3;`                            |
-| Bloquer agents suspects      | `if ($http_user_agent ~* "malicious") { return 403; }` |
-| Mettre à jour NGINX          | `sudo apt update && sudo apt upgrade`               |
+Action : Désactiver méthodes
+Commande/Configuration : limit_except GET POST { deny all; }
 
----
+Action : Restreindre accès
+Commande/Configuration : allow 192.168.1.0/24; deny all;
 
-## 5. Logs et dépannage
+Action : Activer HSTS
+Commande/Configuration : add_header Strict-Transport-Security "max-age=31536000";
 
-| **Commande**                 | **Description**                                      |
-|------------------------------|-----------------------------------------------------|
-| `tail -f /var/log/nginx/error.log` | Affiche les erreurs en temps réel             |
-| `tail -f /var/log/nginx/access.log` | Affiche les accès en temps réel              |
-| `nginx -V`                   | Affiche les détails de compilation                 |
-| `netstat -tulnp | grep 80`   | Vérifie les ports utilisés                          |
+Action : Désactiver répertoires
+Commande/Configuration : autoindex off;
 
----
+Action : Limiter les requêtes
+Commande/Configuration : limit_req zone=one burst=5;
 
-## 6. Précautions
+Action : Configurer SSL sécurisé
+Commande/Configuration : ssl_protocols TLSv1.3;
 
-- **Permissions** : Assurez `www-data` ou `nginx` comme propriétaire de `/var/www`.
-- **Usage légal** : Modifications uniquement sur serveurs autorisés.
-- **Sauvegarde** : Sauvegardez les configs avant modification.
+Action : Bloquer agents suspects
+Commande/Configuration : if ($http_user_agent ~* "malicious") { return 403; }
 
+Action : Mettre à jour NGINX
+Commande/Configuration : sudo apt update && sudo apt upgrade
 
+5. Logs et dépannage
 
+Commande : tail -f /var/log/nginx/error.log
+Description : Affiche les erreurs en temps réel
 
+Commande : tail -f /var/log/nginx/access.log
+Description : Affiche les accès en temps réel
 
-## 3. Configuration de base (Server Block)
+Commande : nginx -V
+Description : Affiche les détails de compilation
+
+Commande : netstat -tulnp | grep 80
+Description : Vérifie les ports utilisés
+
+6. Précautions
+
+- Permissions : Assurez www-data ou nginx comme propriétaire de /var/www.
+- Usage légal : Modifications uniquement sur serveurs autorisés.
+- Sauvegarde : Sauvegardez les configs avant modification.
