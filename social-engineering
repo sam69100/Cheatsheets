@@ -1,0 +1,125 @@
+
+cheat sheet - Ingénierie sociale (Faille humaine)
+
+Ce document présente les techniques d’ingénierie sociale, leurs mécanismes et les moyens de s’en protéger, à des fins éducatives et légales uniquement.
+
+
+1. Comprendre l’ingénierie sociale
+
+L’ingénierie sociale exploite la psychologie humaine pour obtenir un accès non autorisé ou des informations sensibles.
+
+Aspect : Cible
+Description : Utilisateurs, employés, individus
+
+Aspect : Objectif
+Description : Accès, données, manipulation
+
+Aspect : Moyen
+Description : Tromperie, confiance, pression
+
+Aspect : Impact
+Description : Vol d’identifiants, compromission de systèmes
+
+2. Techniques courantes
+
+Phishing
+
+Exemple : Email : "Votre compte est suspendu, cliquez ici"
+Description : Piège pour voler des identifiants
+
+Pretexting
+
+Exemple : Appel : "Je suis de l’IT, donnez-moi votre mot de passe"
+Description : Fausse identité pour obtenir des infos
+
+Baiting
+
+Exemple : Clé USB laissée dans un parking
+Description : Incite à connecter un dispositif infecté
+
+Tailgating
+
+Exemple : Suivre un employé dans un bâtiment sécurisé
+Description : Accès physique sans autorisation
+
+Quid Pro Quo
+
+Exemple : "Je répare votre PC si vous me donnez l’accès"
+Description : Échange de service contre informations
+
+3. Signes d’attaque
+
+Indicateur : Urgence
+Explication : Pression pour agir vite (ex. : "Compte bloqué")
+
+Indicateur : Fausse autorité
+Explication : Prétend venir d’une source fiable
+
+Indicateur : Offre trop belle
+Explication : Promesse irréaliste (ex. : gain facile)
+
+Indicateur : Demande inhabituelle
+Explication : Infos ou actions hors procédure
+
+Indicateur : Erreurs grammaticales
+Explication : Souvent dans les emails phishing
+
+4. Préventions
+
+Moyen : Formation régulière
+Explication : Sensibiliser les employés aux techniques
+
+Moyen : Vérification d’identité
+Explication : Toujours confirmer par un canal officiel
+
+Moyen : Politiques strictes
+Explication : Ne pas partager d’infos sensibles sans validation
+
+Moyen : Filtrage des emails
+Explication : Bloquer les phishing avec des outils (ex. : SPF, DMARC)
+
+Moyen : Contrôle d’accès physique
+Explication : Badges, surveillance des entrées
+
+Moyen : Simulation d’attaques
+Explication : Tester la résilience via faux phishing
+
+Moyen : Méfiance par défaut
+Explication : Ne pas cliquer sur liens suspects
+
+Moyen : Mise à jour des processus
+Explication : Réviser les procédures de sécurité
+
+Moyen : Signalement rapide
+Explication : Encourager à rapporter les incidents
+
+Moyen : Authentification forte
+Explication : MFA pour limiter les dégâts
+
+5. Exemples pratiques
+
+Scénario : Email avec lien suspect
+Technique : Phishing
+Contre-mesure : Vérifier l’URL, ne pas cliquer
+
+Scénario : Appel d’un "technicien"
+Technique : Pretexting
+Contre-mesure : Confirmer via canal officiel
+
+Scénario : Clé USB trouvée
+Technique : Baiting
+Contre-mesure : Ne pas connecter, signaler
+
+Scénario : Entrée derrière un employé
+Technique : Tailgating
+Contre-mesure : Vérifier les badges
+
+Scénario : Offre d’aide technique
+Technique : Quid Pro Quo
+Contre-mesure : Refuser sans validation
+
+6. Précautions
+
+- Usage légal : Techniques à des fins éducatives ou tests autorisés uniquement.
+- Sensibilisation : Prioriser la prévention plutôt que l’exploitation.
+- Outils : Utiliser des simulateurs comme SET (Social-Engineer Toolkit) dans un cadre légal.
