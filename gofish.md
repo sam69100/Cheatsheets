@@ -95,5 +95,6 @@ Ce document présente les étapes et commandes essentielles pour configurer et u
 - **Usage légal** : Simulations uniquement avec autorisation explicite.
 - **Sécurité** : Utilisez HTTPS et changez les identifiants par défaut.
 - **Logs** : Vérifiez `/var/log/syslog` ou stdout pour les erreurs.
-  
 
+## Référence :
+https://github.com/gophish/gophish/releases
