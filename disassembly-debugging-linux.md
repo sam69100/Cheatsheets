@@ -1,0 +1,100 @@
+# disassembly-debugging-linux.md
+
+## cheat sheet - Désassemblage et Débogage sous Linux
+
+Ce document présente les outils et commandes pour désassembler et déboguer des programmes sous Linux, à des fins éducatives et légales uniquement.
+
+---
+
+## 1. Comprendre Désassemblage et Débogage
+
+Le désassemblage permet de convertir un binaire en code assembleur pour analyser son fonctionnement. Le débogage suit l’exécution d’un programme pour identifier des erreurs ou des comportements. Les outils principaux incluent `gdb`, `objdump`, `strace`, et `radare2`. Ces techniques sont utilisées pour le reverse engineering ou le développement sécurisé.
+
+---
+
+## 2. Outils de désassemblage
+
+- **objdump** : Extrait le code assembleur d’un fichier binaire.  
+  Exemple : `objdump -d /bin/ls`  
+  Description : Désassemble le binaire `ls` et affiche son code assembleur.
+
+- **objdump avec section spécifique** :  
+  Exemple : `objdump -d -j .text /bin/cat`  
+  Description : Désassemble uniquement la section `.text` (code exécutable) de `cat`.
+
+- **radare2** : Outil avancé pour désassemblage et analyse.  
+  Exemple : `r2 -A /bin/ls`  
+  Description : Ouvre `ls` dans radare2 avec analyse automatique (`-A`).
+
+- **radare2 désassemblage rapide** :  
+  Exemple : `r2 -c "pd 10" /bin/ls`  
+  Description : Affiche les 10 premières instructions assembleur de `ls`.
+
+- **strings** : Extrait les chaînes lisibles d’un binaire.  
+  Exemple : `strings /bin/ls`  
+  Description : Liste les chaînes de caractères dans `ls`, utile pour repérer des indices.
+
+---
+
+## 3. Outils de débogage
+
+- **gdb** : Débogueur standard pour exécuter et analyser un programme.  
+  Exemple : `gdb ./programme`  
+  Description : Ouvre `programme` dans gdb pour inspection.
+
+- **gdb - Lancer l’exécution** :  
+  Exemple : `(gdb) run`  
+  Description : Exécute le programme chargé dans gdb.
+
+- **gdb - Point d’arrêt** :  
+  Exemple : `(gdb) break main`  
+  Description : Place un point d’arrêt à la fonction `main`.
+
+- **gdb - Étape suivante** :  
+  Exemple : `(gdb) step`  
+  Description : Avance ligne par ligne dans le code source.
+
+- **gdb - Désassemblage dans gdb** :  
+  Exemple : `(gdb) disassemble main`  
+  Description : Affiche le code assembleur de la fonction `main`.
+
+- **strace** : Trace les appels système d’un programme.  
+  Exemple : `strace -o trace.log ls`  
+  Description : Enregistre les appels système de `ls` dans `trace.log`.
+
+- **ltrace** : Trace les appels aux bibliothèques dynamiques.  
+  Exemple : `ltrace -o libcalls.log ./programme`  
+  Description : Enregistre les appels de bibliothèque dans un fichier.
+
+---
+
+## 4. Exemples pratiques
+
+- **Désassembler un binaire simple** :  
+  Commande : `objdump -M intel -d ./programme`  
+  Description : Désassemble `programme` avec syntaxe Intel pour plus de lisibilité.
+
+- **Déboguer avec gdb et examiner les registres** :  
+  Commande : `(gdb) info registers`  
+  Description : Affiche l’état des registres CPU après un point d’arrêt.
+
+- **Suivre les appels système** :  
+  Commande : `strace -e open ls`  
+  Description : Trace uniquement les appels `open` effectués par `ls`.
+
+- **Analyser avec radare2 et chercher une fonction** :  
+  Commande : `r2 -c "afl; pdf @ main" /bin/ls`  
+  Description : Liste les fonctions (`afl`) et désassemble `main` dans `ls`.
+
+- **Inspecter la pile dans gdb** :  
+  Commande : `(gdb) backtrace`  
+  Description : Affiche la pile d’appels pour localiser l’exécution.
+
+---
+
+## 5. Précautions
+
+- **Usage légal** : Analyse uniquement sur des binaires ou systèmes autorisés.
+- **Préparation** : Compilez avec `-g` (ex. : `gcc -g programme.c`) pour inclure les symboles de débogage.
+- **Outils** : Installez `gdb`, `radare2`, `strace`, et `ltrace` via votre gestionnaire de paquets (ex. : `apt install`).
+  
