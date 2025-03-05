@@ -1,0 +1,103 @@
+
+cheat sheet - GoPhish
+
+Ce document présente les étapes et commandes essentielles pour configurer et utiliser GoPhish, un outil de simulation de phishing, dans un cadre légal et autorisé.
+
+1. Installation
+
+Commande : wget https://github.com/gophish/gophish/releases/download/v0.12.1/gophish-v0.12.1-linux-64bit.zip
+Description : Télécharge la dernière version
+
+Commande : unzip gophish-v0.12.1-linux-64bit.zip
+Description : Décompresse l’archive
+
+Commande : chmod +x gophish
+Description : Rend le binaire exécutable
+
+Commande : ./gophish
+Description : Lance GoPhish (port 3333 par défaut)
+
+2. Configuration de base
+
+Fichier config.json :
+{
+  "admin_server": {
+    "listen_url": "0.0.0.0:3333",
+    "use_tls": true,
+    "cert_path": "gophish.crt",
+    "key_path": "gophish.key"
+  },
+  "phish_server": {
+    "listen_url": "0.0.0.0:80",
+    "use_tls": false
+  },
+  "db_name": "sqlite3",
+  "db_path": "gophish.db"
+}
+
+Paramètre : admin_server.listen_url
+Description : Port admin (ex. : 3333)
+
+Paramètre : phish_server.listen_url
+Description : Port du serveur phishing (ex. : 80 ou 443)
+
+Paramètre : use_tls
+Description : Active HTTPS (certificat requis)
+
+3. Commandes courantes
+
+Commande : ./gophish
+Description : Démarre le serveur GoPhish
+
+Commande : sudo setcap cap_net_bind_service=+ep ./gophish
+Description : Autorise ports <1024 sans root
+
+Commande : openssl req -newkey rsa:2048 -nodes -keyout gophish.key -x509 -days 365 -out gophish.crt
+Description : Crée un certificat auto-signé
+
+4. Utilisation dans l’interface web
+
+- URL par défaut : https://localhost:3333
+- Identifiants par défaut : admin / gophish (changez-les immédiatement).
+
+Étape : Créer un groupe
+Action : Users > New Group > Ajouter cibles (CSV ou manuel)
+
+Étape : Configurer un email
+Action : Sending Profiles > SMTP + Template HTML
+
+Étape : Créer une landing page
+Action : Landing Pages > Importer ou éditer manuellement
+
+Étape : Lancer une campagne
+Action : Campaigns > Configurer groupe, email, page
+
+Étape : Vérifier les résultats
+Action : Dashboard > Stats (clics, soumissions)
+
+5. Exemples pratiques
+
+Campagne de phishing simple :
+1. Configurez config.json pour utiliser un domaine (ex. : phish.example.com).
+2. Ajoutez une cible : Users > New Group > email@example.com.
+3. Créez un template : Emails > New Template > "Votre mot de passe expire, cliquez ici".
+4. Définissez une landing page : Landing Pages > Importer un site légitime.
+5. Lancez : Campaigns > New Campaign.
+
+Variable : {{.FirstName}}
+Description : Prénom de la cible
+
+Variable : {{.Email}}
+Description : Email de la cible
+
+Variable : {{.URL}}
+Description : Lien vers la landing page
+
+Variable : {{.TrackingURL}}
+Description : URL de suivi des clics
+
+6. Précautions
+
+- Usage légal : Simulations uniquement avec autorisation explicite.
+- Sécurité : Utilisez HTTPS et changez les identifiants par défaut.
+- Logs : Vérifiez /var/log/syslog ou stdout pour les erreurs.
