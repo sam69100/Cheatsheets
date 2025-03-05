@@ -1,0 +1,122 @@
+
+
+cheat sheet - Apache HTTP Server
+
+Ce document présente les commandes et configurations essentielles pour gérer un serveur Apache sous Linux.
+
+
+1. Commandes de gestion
+
+Commande : sudo systemctl start apache2
+Description : Démarre le service Apache
+
+Commande : sudo systemctl stop apache2
+Description : Arrête le service Apache
+
+Commande : sudo systemctl restart apache2
+Description : Redémarre Apache
+
+Commande : sudo systemctl reload apache2
+Description : Recharge la configuration sans interruption
+
+Commande : sudo apachectl configtest
+Description : Vérifie la syntaxe des fichiers de configuration
+
+Commande : sudo a2enmod <module>
+Description : Active un module (ex. : rewrite)
+
+Commande : sudo a2dismod <module>
+Description : Désactive un module
+
+Commande : sudo a2ensite <site>
+Description : Active un site virtuel
+
+Commande : sudo a2dissite <site>
+Description : Désactive un site virtuel
+
+2. Fichiers de configuration
+
+Fichier : /etc/apache2/apache2.conf
+Description : Configuration principale
+
+Fichier : /etc/apache2/ports.conf
+Description : Ports écoutés (ex. : 80, 443)
+
+Fichier : /etc/apache2/sites-available/
+Description : Configurations des sites virtuels
+
+Fichier : /etc/apache2/sites-enabled/
+Description : Liens vers les sites actifs
+
+Fichier : /etc/apache2/mods-available/
+Description : Modules disponibles
+
+Fichier : /etc/apache2/mods-enabled/
+Description : Modules activés
+
+3. Configuration de base (Virtual Host)
+
+<VirtualHost *:80>
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    <Directory /var/www/example>
+        Options -Indexes
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+4. Sécurisation
+
+Action : Désactiver ServerSignature
+Commande/Configuration : ServerSignature Off (apache2.conf)
+
+Action : Masquer la version
+Commande/Configuration : ServerTokens Prod
+
+Action : Activer SSL
+Commande/Configuration : sudo a2enmod ssl + VirtualHost sur 443
+
+Action : Désactiver TRACE
+Commande/Configuration : TraceEnable Off
+
+Action : Limiter les méthodes
+Commande/Configuration : <LimitExcept GET POST>
+
+Action : Restreindre accès
+Commande/Configuration : Require ip 192.168.1.0/24
+
+Action : Activer HSTS
+Commande/Configuration : Header always set Strict-Transport-Security "max-age=31536000"
+
+Action : Désactiver répertoires
+Commande/Configuration : Options -Indexes
+
+Action : Configurer .htaccess
+Commande/Configuration : AllowOverride All
+
+Action : Mettre à jour Apache
+Commande/Configuration : sudo apt update && sudo apt upgrade
+
+5. Logs et dépannage
+
+Commande : tail -f /var/log/apache2/error.log
+Description : Affiche les erreurs en temps réel
+
+Commande : tail -f /var/log/apache2/access.log
+Description : Affiche les accès en temps réel
+
+Commande : apachectl -M
+Description : Liste les modules chargés
+
+Commande : netstat -tulnp | grep 80
+Description : Vérifie les ports utilisés
+
+6. Précautions
+
+- Permissions : Vérifiez les droits sur /var/www (ex. : chown -R www-data:www-data).
+- Usage légal : Modifications uniquement sur serveurs autorisés.
+- Sauvegarde : Sauvegardez les fichiers de config avant modification.
