@@ -1,79 +1,90 @@
+# xxd.md
 
 ## cheat sheet - xxd
 
 Ce document présente les commandes et options de `xxd` pour manipuler des données hexadécimales, avec des exemples utilisant `echo`.
 
+
 ---
 
 ## 1. Comprendre xxd
 
-`xxd` génère des dumps hexadécimaux de fichiers ou d’entrées stdin et peut aussi reconvertir des hex en binaire.
-
-| **Aspect**           | **Description**                                      |
-|----------------------|-----------------------------------------------------|
-| **Utilisation**      | Analyse de fichiers binaires, conversion hex        |
-| **Syntaxe de base**  | `xxd [options] [fichier]` ou `echo "texte" | xxd`   |
-| **Sortie par défaut** | Hex + ASCII côte à côte                            |
+`xxd` est un outil qui génère des dumps hexadécimaux à partir de fichiers ou d’entrées stdin et peut reconvertir des données hexadécimales en binaire. Il est utile pour analyser des fichiers binaires ou convertir des données en hexadécimal. La syntaxe de base est `xx table [options] [fichier]` ou via une entrée comme `echo "texte" | xxd`. Par défaut, il affiche l’hexadécimal et l’ASCII côte à côte.
 
 ---
 
 ## 2. Options courantes
 
-| **Option**           | **Description**                                      |
-|----------------------|-----------------------------------------------------|
-| `-b`                | Affiche en binaire au lieu d’hexadécimal            |
-| `-c <n>`            | Définit le nombre de colonnes (octets par ligne)    |
-| `-l <n>`            | Limite la longueur de la sortie (en octets)         |
-| `-r`                | Reconverti hex en binaire (reverse)                 |
-| `-p`                | Sortie en hex brut (plain, sans formatage)          |
-| `-u`                | Utilise des majuscules pour l’hexadécimal           |
-| `-i`                | Génère un format compatible C (tableau hex)         |
+- `-b` : Affiche les données en binaire plutôt qu’en hexadécimal.
+- `-c <n>` : Définit le nombre d’octets par ligne (colonnes).
+- `-l <n>` : Limite la sortie à un nombre spécifique d’octets.
+- `-r` : Reconverti un dump hexadécimal en données binaires (mode reverse).
+- `-p` : Génère une sortie hexadécimale brute sans formatage.
+- `-u` : Utilise des majuscules pour les valeurs hexadécimales.
+- `-i` : Produit un tableau hexadécimal au format compatible C.
 
 ---
 
 ## 3. Exemples avec `echo` et `xxd`
 
 ### Dump hexadécimal simple
-| **Commande**                 | **Sortie**                        | **Description**                     |
-|------------------------------|-----------------------------------|-------------------------------------|
-| `echo "Hello" | xxd`         | `00000000: 4865 6c6c 6f0a       Hello.` | Hex + ASCII de "Hello"            |
-| `echo -n "Hello" | xxd`       | `00000000: 4865 6c6c 6f         Hello` | Sans retour à la ligne (-n)       |
+- Commande : `echo "Hello" | xxd`  
+  Sortie : `00000000: 4865 6c6c 6f0a       Hello.`  
+  Description : Affiche l’hexadécimal et l’ASCII de "Hello" avec un retour à la ligne (`0a`).
+
+- Commande : `echo -n "Hello" | xxd`  
+  Sortie : `00000000: 4865 6c6c 6f         Hello`  
+  Description : Identique, mais sans retour à la ligne grâce à `-n`.
 
 ### Format personnalisé
-| **Commande**                 | **Sortie**                        | **Description**                     |
-|------------------------------|-----------------------------------|-------------------------------------|
-| `echo "Test" | xxd -b`       | `00000000: 01010100 01100101 ...` | Binaire au lieu d’hex             |
-| `echo "ABC" | xxd -c 2`      | `00000000: 4142 0a              AB.` | 2 octets par ligne                |
-| `echo "Data" | xxd -p`       | `446174610a`                      | Hex brut sans formatage           |
+- Commande : `echo "Test" | xxd -b`  
+  Sortie : `00000000: 01010100 01100101 ...`  
+  Description : Affiche les données en binaire au lieu d’hexadécimal.
+
+- Commande : `echo "ABC" | xxd -c 2`  
+  Sortie : `00000000: 4142 0a              AB.`  
+  Description : Limite à 2 octets par ligne.
+
+- Commande : `echo "Data" | xxd -p`  
+  Sortie : `446174610a`  
+  Description : Sortie hexadécimale brute sans formatage.
 
 ### Conversion inverse
-| **Commande**                 | **Sortie**                        | **Description**                     |
-|------------------------------|-----------------------------------|-------------------------------------|
-| `echo "48656c6c6f" | xxd -r -p` | `Hello`                          | Hex → texte (sans retour ligne)   |
-| `echo "4142" | xxd -r -p`     | `AB`                             | Hex brut → texte                  |
+- Commande : `echo "48656c6c6f" | xxd -r -p`  
+  Sortie : `Hello`  
+  Description : Reconverti une chaîne hexadécimale en texte.
+
+- Commande : `echo "4142" | xxd -r -p`  
+  Sortie : `AB`  
+  Description : Convertit une courte chaîne hexadécimale en texte.
 
 ### Analyse avancée
-| **Commande**                 | **Sortie**                        | **Description**                     |
-|------------------------------|-----------------------------------|-------------------------------------|
-| `echo "Secret" | xxd -u`     | `00000000: 5365 6372 6574 0a    SECRET.` | Hex en majuscules              |
-| `echo "Code" | xxd -l 3`      | `00000000: 436f 64             Cod` | Limite à 3 octets                 |
-| `echo "Array" | xxd -i`       | `unsigned char ... = { 0x41, ... };` | Format C                    |
+- Commande : `echo "Secret" | xxd -u`  
+  Sortie : `00000000: 5365 6372 6574 0a    SECRET.`  
+  Description : Affiche l’hexadécimal en majuscules.
+
+- Commande : `echo "Code" | xxd -l 3`  
+  Sortie : `00000000: 436f 64             Cod`  
+  Description : Limite la sortie aux 3 premiers octets.
+
+- Commande : `echo "Array" | xxd -i`  
+  Sortie : `unsigned char ... = { 0x41, ... };`  
+  Description : Génère un tableau hexadécimal au format C.
 
 ---
 
 ## 4. Utilisations pratiques
 
-| **Cas**                      | **Commande**                        | **Description**                     |
-|------------------------------|------------------------------------|-------------------------------------|
-| Analyse d’une chaîne         | `echo "Linux" | xxd`              | Voir l’hex d’une chaîne             |
-| Créer un fichier binaire     | `echo "deadbeef" | xxd -r -p > file.bin` | Hex → fichier binaire           |
-| Vérifier un encodage         | `echo "Test" | xxd -p`            | Hex brut pour analyse               |
-| Débogage rapide              | `echo -n "Bug" | xxd -b`           | Binaire pour inspection             |
+- **Analyse d’une chaîne** : Utilisez `echo "Linux" | xxd` pour voir la représentation hexadécimale d’une chaîne.
+- **Créer un fichier binaire** : Exécutez `echo "deadbeef" | xxd -r -p > file.bin` pour convertir une chaîne hexadécimale en fichier binaire.
+- **Vérifier un encodage** : Avec `echo "Test" | xxd -p`, obtenez une sortie hexadécimale brute pour analyse.
+- **Débogage rapide** : Essayez `echo -n "Bug" | xxd -b` pour inspecter une chaîne en binaire.
 
 ---
 
 ## 5. Précautions
 
-- **Usage légal** : Analyse uniquement sur des données autorisées.
-- **Entrée** : Utilisez `-n` avec `echo` pour éviter les retours à la ligne indésirables.
-- **Compatibilité** : Disponible par défaut sur la plupart des distributions Linux.
+- **Usage légal** : Utilisez `xxd` uniquement sur des données que vous êtes autorisé à analyser.
+- **Entrée propre** : Ajoutez `-n` à `echo` pour éviter les retours à la ligne indésirables (`0a`).
+- **Compatibilité** : `xxd` est généralement préinstallé sur les distributions Linux.
+  
