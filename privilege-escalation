@@ -1,0 +1,178 @@
+
+
+cheat sheet - Élévation de privilèges (Verticale/Horizontale)
+
+Ce document détaille les techniques d’élévation de privilèges verticale et horizontale sous Linux/Windows, à des fins éducatives et légales uniquement.
+
+
+1. Comprendre l’élévation de privilèges
+
+Type : Verticale
+Description : Passage d’un niveau inférieur à supérieur (ex. : user → root/admin)
+
+Type : Horizontale
+Description : Accès aux privilèges d’un autre utilisateur au même niveau
+
+2. Techniques Verticales (Linux)
+
+Commandes de détection
+
+Commande : whoami; id
+Description : Vérifie l’utilisateur actuel
+
+Commande : sudo -l
+Description : Liste les commandes sudo autorisées
+
+Commande : find / -perm -u=s 2>/dev/null
+Description : Cherche les binaires SUID
+
+Commande : cat /etc/passwd
+Description : Liste les utilisateurs (cherche root/admin)
+
+Commande : ls -la /etc/cron*
+Description : Vérifie les tâches cron éditables
+
+Exploits
+
+Technique : SUID abuse
+Exemple : find / -exec /bin/sh \;
+Description : Exécute un shell via SUID mal configuré
+
+Technique : Sudo misconfig
+Exemple : sudo /bin/bash
+Description : Exploite un sudo mal limité
+
+Technique : Kernel exploits
+Exemple : exploit-db: searchsploit linux kernel
+Description : Utilise une faille kernel
+
+Technique : Cron jobs
+Exemple : Modifier script cron exécuté par root
+Description : Ajoute un shell ou commande
+
+Technique : Weak passwords
+Exemple : su root (si mot de passe faible)
+Description : Bruteforce ou devinette
+
+3. Techniques Horizontales (Linux)
+
+Technique : Fichiers lisibles
+Exemple : cat /home/user/.ssh/id_rsa
+Description : Vole une clé SSH privée
+
+Technique : Historique
+Exemple : cat ~/.bash_history
+Description : Récupère des commandes sensibles
+
+Technique : Variables d’environnement
+Exemple : echo $PATH (modifier PATH)
+Description : Redirige vers un binaire malveillant
+
+Technique : Processus utilisateur
+Exemple : ps aux | grep <user>
+Description : Identifie processus vulnérables
+
+Technique : Session ouverte
+Exemple : who; w
+Description : Exploite une session active
+
+4. Techniques Verticales (Windows)
+
+Commandes de détection
+
+Commande : whoami /all
+Description : Affiche les privilèges actuels
+
+Commande : net user
+Description : Liste les utilisateurs
+
+Commande : systeminfo
+Description : Infos système (utile pour exploits)
+
+Commande : dir /s /p "unattend.xml"
+Description : Cherche des fichiers de config avec creds
+
+Commande : schtasks /query
+Description : Liste les tâches planifiées
+
+Exploits
+
+Technique : Service misconfig
+Exemple : sc qc <service> → net start
+Description : Exploite un service mal configuré
+
+Technique : DLL Hijacking
+Exemple : Remplace une DLL dans PATH
+Description : Exécute code avec droits élevés
+
+Technique : Token Impersonation
+Exemple : Incognito (Metasploit)
+Description : Vole un jeton de privilège
+
+Technique : UAC Bypass
+Exemple : msf: windows/local/bypassuac
+Description : Contourne le contrôle UAC
+
+Technique : Weak registry
+Exemple : reg query HKLM\SOFTWARE
+Description : Cherche des creds ou configs
+
+5. Techniques Horizontales (Windows)
+
+Technique : SAM dump
+Exemple : mimikatz: samdump
+Description : Récupère les hashes locaux
+
+Technique : Fichiers lisibles
+Exemple : type C:\Users\user\.rdp
+Description : Récupère des creds sauvegardés
+
+Technique : Processus utilisateur
+Exemple : tasklist /V
+Description : Identifie processus vulnérables
+
+Technique : Session ouverte
+Exemple : qwinsta
+Description : Exploite une session active
+
+Technique : Pass-the-Hash
+Exemple : pth-winexe -U <hash> <IP>
+Description : Accès avec hash NTLM
+
+6. Préventions
+
+Moyen : Moindre privilège
+Explication : Limiter les droits au minimum nécessaire
+
+Moyen : Mise à jour système
+Explication : Corriger les failles kernel/logicielles
+
+Moyen : Supprimer SUID inutiles
+Explication : Réduire les binaires à risque
+
+Moyen : Permissions strictes
+Explication : Protéger fichiers sensibles (ex. : chmod 600)
+
+Moyen : Désactiver comptes inutiles
+Explication : Réduire la surface d’attaque
+
+Moyen : Surveiller cron/tâches
+Explication : Vérifier les scripts exécutés
+
+Moyen : Chiffrer données sensibles
+Explication : Prévenir l’accès direct
+
+Moyen : Activer UAC (Windows)
+Explication : Forcer la validation des élévations
+
+Moyen : Journalisation
+Explication : Détecter les activités suspectes
+
+Moyen : Formation utilisateurs
+Explication : Éviter les mots de passe faibles
+
+7. Précautions
+
+- Usage légal : Tests uniquement sur systèmes autorisés.
+- Outils : Metasploit, Mimikatz, LinPEAS, WinPEAS pour automatisation.
+- Sauvegarde : Tester dans un environnement isolé.
