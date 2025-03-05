@@ -6,7 +6,9 @@ Ce document présente les outils et commandes pour désassembler et déboguer de
 
 1. Comprendre Désassemblage et Débogage
 
-Le désassemblage permet de convertir un binaire en code assembleur pour analyser son fonctionnement. Le débogage suit l’exécution d’un programme pour identifier des erreurs ou des comportements. Les outils principaux incluent gdb, objdump, strace, et radare2. Ces techniques sont utilisées pour le reverse engineering ou le développement sécurisé.
+Le désassemblage permet de convertir un binaire en code assembleur pour analyser son fonctionnement. 
+Le débogage suit l’exécution d’un programme pour identifier des erreurs ou des comportements. Les outils principaux incluent gdb, objdump, strace, et radare2. 
+Ces techniques sont utilisées pour le reverse engineering ou le développement sécurisé.
 
 2. Outils de désassemblage
 
